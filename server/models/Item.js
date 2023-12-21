@@ -22,9 +22,9 @@ const itemSchema = new mongoose.Schema({
     required: true 
   },
   category: { type: String},
-  recommendation: [{ 
-    type: String 
-  }],
+  // recommendation: [{ 
+  //   type: String 
+  // }],
   ratingsAndReviews: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'RatingReview', required: true
