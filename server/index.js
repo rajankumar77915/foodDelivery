@@ -20,9 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// routes
-app.use("/api/projects", projectsRoutes);
-app.use("/api/user", userRoutes);
+
 
 // connecting to the database(mongodb)
 mongoose.set("strictQuery", false);
