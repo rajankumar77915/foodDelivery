@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 
 const restaurantSchema = new mongoose.Schema({
@@ -11,10 +11,10 @@ const restaurantSchema = new mongoose.Schema({
   restaurantOpeningTime: { type:Date},
   restaurantClosingTime: { type:Date},
   contactNumber: { type: String, required: true },
-  RatingReviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'RestaurantRatingReviews.js'}],
+  RatingReviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'RestaurantRatingReviews'}],
   // isPromo: { type: Boolean, default: false },
 });
 
 
-module.exports = mongoose.model('Restaurant', restaurantSchema);
-
+const Restaurant= mongoose.model('Restaurant', restaurantSchema);
+export default Restaurant

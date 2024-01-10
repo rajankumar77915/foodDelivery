@@ -1,9 +1,11 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const User = require("../models/User");
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import User from "../models/User.js";
+
+dotenv.config();
 
 //auth
-exports.auth = async (req, res, next) => {
+export const auth = async (req, res, next) => {
     try{
 
         //extract token
@@ -23,7 +25,7 @@ exports.auth = async (req, res, next) => {
         //verify the token
         try{
             const decode =  jwt.verify(token, process.env.JWT_SECRET);
-            console.log("token decode:",decode);
+            console.log("token decode:",decode);    
             req.user = decode;
         }
         catch(err) {
@@ -44,7 +46,7 @@ exports.auth = async (req, res, next) => {
 }
 
 //isCustomer
-exports.isCustomer = async (req, res, next) => {
+export const isCustomer = async (req, res, next) => {
  try{
         if(req.user.accountType !== "customer") {
             return res.status(401).json({
@@ -64,7 +66,7 @@ exports.isCustomer = async (req, res, next) => {
 
 
 //isDeliveryBoy
-exports.isDeliveryBoy = async (req, res, next) => {
+export const isDeliveryBoy = async (req, res, next) => {
     try{
            if(req.user.accountType !== "deliveryBoy") {
                return res.status(401).json({
@@ -84,7 +86,7 @@ exports.isDeliveryBoy = async (req, res, next) => {
 
 
 //isAdmin
-exports.isAdmin = async (req, res, next) => {
+export const isAdmin = async (req, res, next) => {
     try{
            if(req.user.accountType !== "admin") {
                return res.status(401).json({

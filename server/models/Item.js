@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-
+import mongoose from "mongoose";
 const itemSchema = new mongoose.Schema({
   itemName: { 
     type: String, 
@@ -14,25 +13,25 @@ const itemSchema = new mongoose.Schema({
     required: true 
   },
   tax: { 
-    type: Number, 
-    required: true 
+    type: Number
   },
   image: { 
     type: String, 
     required: true 
   },
-  category: { type: String},
-  // recommendation: [{ 
-  //   type: String 
-  // }],
+  category: { type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Category', required: true
+  },
   ratingsAndReviews: [{
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'RatingReview', required: true
+    ref: 'RatingReview'
   }],
   isVeg: { 
     type: Boolean, 
     required: true 
   },
+  quantity: { type: Number},
 });
-const Item = mongoose.model('Item', itemSchema);
-module.exports = Item;
+const  Item = mongoose.model('Item', itemSchema);
+export   default Item
+

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 //rating and review sub-schema which stroed in item
 const ratingReviewSchema = new mongoose.Schema({
@@ -8,5 +8,6 @@ const ratingReviewSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('RatingReview', ratingReviewSchema);
+const RatingReview=mongoose.model('RatingReview', ratingReviewSchema);
+export   default RatingReview
 
