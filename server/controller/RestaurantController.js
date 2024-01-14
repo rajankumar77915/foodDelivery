@@ -74,15 +74,15 @@ export const updateRestaurant = async (req, res) => {
   if (!restaurantClosingTime) emptyFields.push("restaurantClosingTime");
   if (!contactNUmber) emptyFields.push("contactNUmber");
 
-  if (emptyFields.length > 0) {
+  if (emptyFields.length < 0) {
     return res
       .status(400)
       .json({ error: "Please fill in all the fields!", emptyFields });
   }
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid id" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   return res.status(404).json({ error: "Invalid id" });
+  // }
 
   const restaurant = await Restaurant.findOneAndUpdate(
     { _id: id },
@@ -90,11 +90,15 @@ export const updateRestaurant = async (req, res) => {
     { new: true }
   );
 
-  if (!project) {
-    return res.status(400).json({ error: "No project found" });
+  if (!restaurant) {
+    return res.status(400).json({ error: "No restaurant found" });
   }
 
-  res.status(200).json(restaurant);
+  res.status(200).json({
+    success:true,
+    data:restaurant,
+    message:"sucessfully updated"
+  });
 };
 
 export const deleteRestaurant = async (req, res) => {

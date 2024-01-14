@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const SubsectionOrder = new mongoose.Schema({
     items: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: true}],

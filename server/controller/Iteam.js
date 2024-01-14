@@ -1,4 +1,4 @@
-import Item from '../models/Item.js'; // Adjust the path based on your project structure
+import Item from '../models/Item.js'; 
 import RatingReview from '../models/RatingReview.js';
 import Category from '../models/Category.js';
 
