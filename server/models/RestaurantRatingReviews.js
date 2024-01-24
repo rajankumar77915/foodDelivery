@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 //rating and review sub-schema which stroed in item
 const RestaurantRatingReviewsSchema = new mongoose.Schema({

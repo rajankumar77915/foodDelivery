@@ -1,25 +1,47 @@
-require("dotenv").config();
-
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const restaurantRoutes = require("./routes/resaturantRoute");
-const userRoutes = require("./routes/userRoute");
-
-// express app
+import express from "express";
 const app = express();
 
-// port
-const port = process.env.PORT || 4000;
+import restaurantRoutes from "./routes/resturant.js";
+import userRoutes from "./routes/user.js";
+import   itemRoutes from "./routes/iteam.js"
 
-// middlewares
-app.use(cors());
+import { dbConnection } from "./config/database.js";
+import cookieParser from "cookie-parser";
+import cors from "cors"; //use to entertaint frontend
+// import { cloudinaryConnect } from "./config/cloudinary";
+import dotenv from "dotenv";
+// import fileupload from "express-fileupload";
+
+dotenv.config();
+
+//middleware to pass jsong request body
 app.use(express.json());
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
+// app.use(fileupload({
+//     useTempFiles: true,
+//     tempFileDir: "d:/mongo+express/express6/CourseBuy_project_MERN/server/tempFile/",
+// }));
+// cloudinaryConnect();
+dbConnection();
+
+// version:1
+app.use("/api/v1/auth",userRoutes);
+app.use("/api/v1/restaurant", restaurantRoutes);
+app.use("/api/v1/iteam",itemRoutes)
+
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`at ${PORT}`);
 });
 
+<<<<<<< HEAD
 
 app.use("/api/user", userRoutes);
 
@@ -35,4 +57,11 @@ mongoose
   })
   .catch((error) => {
     console.log(error);
+=======
+app.get("/", (req, res) => {
+  return res.json({
+    sucess: true,
+    message: "your server is running up and running...",
+>>>>>>> 4a74a51c0aa02a007caa7cbb7cdafbda65ed294f
   });
+});

@@ -1,14 +1,53 @@
-const mongoose = require("mongoose");
-// const Restaurant = require(../models/restaurantModel)
+import mongoose from "mongoose";
+import Restaurant from "../models/Restaurant.js";
+// import Item from "../models/Item.js";
+import User from "../models/User.js";
+import Profile from "../models/Profile.js";
 
-const createRestaurant = async (req, res) => {
-  const user_id = req.user._id;
-  const projects = await Project.find({ user_id }).sort({ createdAt: -1 }); // descending
+export const createRestaurant = async (req, res) => {
+  const {
+    name,
+    address,
+    city,
+    pincode,
+    menu,
+    popularDishes,
+    restaurantOpeningTime,
+    restaurantClosingTime,
+    contactNumber,
+  } = req.body;
 
-  res.status(200).json(projects);
+
+  const newRestaurant = new Restaurant({
+    name,
+    address,
+    city,
+    pincode,
+    menu,
+    popularDishes,
+    restaurantOpeningTime,
+    restaurantClosingTime,
+    contactNumber,
+  });
+
+  //store db
+  await newRestaurant.save()
+
+  if (!newRestaurant) {
+    return res.status(404).json({
+      sucess: false,
+      message: "restaurant not created"
+    })
+
+  }
+  return res.status(200).json({
+    data: newRestaurant,
+    sucess: true,
+    message: "sucessfully restaurant  created"
+  })
 };
 
-const updateRestaurant = async (req, res) => {
+export const updateRestaurant = async (req, res) => {
   const { id } = req.params;
 
   const {
@@ -35,15 +74,15 @@ const updateRestaurant = async (req, res) => {
   if (!restaurantClosingTime) emptyFields.push("restaurantClosingTime");
   if (!contactNUmber) emptyFields.push("contactNUmber");
 
-  if (emptyFields.length > 0) {
+  if (emptyFields.length < 0) {
     return res
       .status(400)
       .json({ error: "Please fill in all the fields!", emptyFields });
   }
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid id" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   return res.status(404).json({ error: "Invalid id" });
+  // }
 
   const restaurant = await Restaurant.findOneAndUpdate(
     { _id: id },
@@ -51,49 +90,120 @@ const updateRestaurant = async (req, res) => {
     { new: true }
   );
 
-  if (!project) {
-    return res.status(400).json({ error: "No project found" });
-  }
-
-  res.status(200).json(restaurant);
-};
-
-const deleteRestaurant = async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid id" });
-  }
-
-  const restaurant = await Restaurant.findOneAndDelete({ _id: id });
-
   if (!restaurant) {
     return res.status(400).json({ error: "No restaurant found" });
   }
 
-  res.status(200).json(restaurant);
+  res.status(200).json({
+    success:true,
+    data:restaurant,
+    message:"sucessfully updated"
+  });
 };
 
-const getRestaurant = async (req, res) => {
-  const { id } = req.params;
+export const deleteRestaurant = async (req, res) => {
+  try {
+    const { id } = req.params.id;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid id" });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: "Invalid id" });
+    }
+
+    const restaurant = await Restaurant.findOneAndDelete({ _id: id });
+
+    if (!restaurant) {
+      return res.status(400).json({ error: "No restaurant found" });
+    }
+
+    res.status(200).json(restaurant);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      error: `Error deleting restaurant: ${error.message}`,
+    });
   }
+};
+export const getRestaurant = async (req, res) => {
+  try {
+    const { id } = req.params;
+  
 
-  const restaurant = Restaurant.findById(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: "Invalid id" });
+    }
 
-  if (!restaurant) {
-    return res.status(404).json({ error: "No restaurants found!" });
+    const restaurant = await Restaurant.findById(id);
+
+    if (!restaurant) {
+      return res.status(404).json({ error: "No restaurant found!" });
+    }
+
+    res.status(200).json(restaurant);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      error: `Error fetching restaurant: ${error.message}`,
+    });
   }
-
-  res.status(200).json(restaurant);
 };
 
-const getDishes = async (req, res) => {
-  const user_id = req.user._id;
+export const getDishes = async (req, res) => {
+  try {
+    const user_id = req?.body?.id;
+    let { currentLocation } = req?.body
+    // const user = await User.find({ user_id })
+    console.log(user_id,currentLocation)
+    
+    //if current location not found then  try to  gat from user_profile
+    if (user_id || user_id!==undefined) {
+      const user = await User.findById({ _id: user_id }).populate("profile").exec()
+      if (!currentLocation) {
+        currentLocation = user.profile?.pincode;
+        // console.log(profile,user_id)
+      }
+      else{
+        //set default location
+        currentLocation="39612"
+      }
 
-  const projects = await Project.find({ user_id }).sort({ createdAt: -1 }); // descending
+      if (!currentLocation) {
+        //select all dishes most  common dish
+        console.log("location required");
+        return res.json("location require")
+      }
+    }
+    const restaurants = await Restaurant.find({ pincode: currentLocation });
+    if (!restaurants || restaurants.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No restaurants found for the given pincode",
+      });
+    }
 
-  res.status(200).json(projects);
+    // Retrieve the top 5 items for each restaurant
+    const topFiveItemsByRestaurant = await Promise.all(
+      restaurants.map(async (restaurant) => {
+        const topFiveItems = await Restaurant.findById(restaurant._id)
+          .select({ 'menu': { $slice: 5 }, _id: 0 }) // Project only the first 5 items from the menu
+          .sort({ 'menu.rating': -1 });
+
+        return { restaurant: restaurant.name, items: topFiveItems };
+      })
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Top 5 items from each restaurant retrieved successfully",
+      data: topFiveItemsByRestaurant,
+    });
+    ;
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      error: `Error fetching dishes: ${error.message}`,
+    });
+  }
 };

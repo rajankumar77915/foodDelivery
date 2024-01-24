@@ -1,12 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 //profile sub-schema for user
 const profileSchema = new mongoose.Schema({
   image: { type: String, required: true },
   birthdate: { type: Date},
-  address: { type: String, required: true },
-  pincode: { type: Number, required: true },
+  address: { type: String},
+  pincode: { type: Number},
 });
 
 
-module.exports = mongoose.model('Profile', profileSchema);
+const Profile= mongoose.model('Profile', profileSchema);
+export default Profile

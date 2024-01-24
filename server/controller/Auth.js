@@ -1,15 +1,14 @@
-const bcrypt=require("bcrypt");
-const User=require("../models/User")
-const OTP= require("../models/OTP")
-const otpGenerator=require("otp-generator")
-const mailSender=require("../utils/mailSender")
-const Profile=require("../models/Profile")
-const jwt=require("jsonwebtoken")
-const {passwordUpdated}=require("../templates/passwordUpdate")
-require("dotenv").config()
+ import bcrypt from "bcrypt";
+ import User from "../models/User.js"
+ import OTP from "../models/OTP.js"
+ import otpGenerator from "otp-generator"
+ import mailSender from "../utils/mailSender.js"
+import Profile from "../models/Profile.js"
+import jwt  from "jsonwebtoken"
+import {passwordUpdated} from "../templates/passwordUpdate.js"
 
 // Signup Controller for Registering User
-exports.signup=async(req,res)=>{
+export  const signup=async(req,res)=>{
     
     try{
         const {
@@ -21,7 +20,7 @@ exports.signup=async(req,res)=>{
 			mobileNo,
 			otp,
             accountType
-		} = req.body.formData;
+		} = req.body;
 		
 		// Check if All Details are there or not
 		if (
@@ -36,7 +35,7 @@ exports.signup=async(req,res)=>{
 					message: "All Fields are required",
 				});
 			}
-			console.log("all field............. ",req.body.formData)
+			// console.log("all field............. ",req.body.formData)
 		// Check if password and confirm password match
 		if (password !== confirmPassword) {
 			return res.status(400).json({
@@ -47,8 +46,9 @@ exports.signup=async(req,res)=>{
 		}
 
         // Check if user already exists
-        const existingUser=await User.find({mobileNo});
+        const existingUser=await User.findOne({mobileNo});
         if (existingUser) {
+			console.log(existingUser)
 			return res.status(400).json({
 				success: false,
 				message: "User already exists. Please sign in to continue.",
@@ -56,24 +56,25 @@ exports.signup=async(req,res)=>{
 		}
 
         // Find the most recent OTP for the mobile
-		const optInServer = await  OTP.find(mobileNo).sort({CreatedAt :-1}).limit(1)
+		// const optInServer = await  OTP.find(mobileNo).sort({CreatedAt :-1}).limit(1)
 
-        if (optInServer.length === 0) {
-			// OTP not found for the email
-			return res.status(401).json({
-				success: false,
-				message: "The OTP is not valid",
-			});
-		} else if (otp !== optInServer[0].otp) {
-			// Invalid OTP
-			return res.status(400).json({
-				success: false,
-				message: "The OTP is not valid",
-			});
-		}
+        // if (optInServer.length === 0) {
+		// 	// OTP not found for the email
+		// 	return res.status(401).json({
+		// 		success: false,
+		// 		message: "The OTP is not valid",
+		// 	});
+		// } else if (otp !== optInServer[0].otp) {
+		// 	// Invalid OTP
+		// 	return res.status(400).json({
+		// 		success: false,
+		// 		message: "The OTP is not valid",
+		// 	});
+		// }
 
         //hasing the password
-        const hashedPassword=await bcrypt.compare(password,10);
+        const hashedPassword= await bcrypt.hash(password,10);
+		console.log("here working")
 
         //create  profile
         const profileDetails=await Profile.create({
@@ -81,7 +82,6 @@ exports.signup=async(req,res)=>{
             birthdate:null,
             address:null,
         })
-
         //create user
         const  user=await User.create({
             firstName,
@@ -112,7 +112,7 @@ exports.signup=async(req,res)=>{
 
 
 // Login controller for authenticating users
-exports.login = async (req, res) => {
+export  const login = async (req, res) => {
 	try {
 		// Get mobileNo and password from request body
 		const { mobileNo, password } = req.body;
@@ -127,8 +127,7 @@ exports.login = async (req, res) => {
 		}
 
 		// Find user with provided mobileNo
-		const user = await User.findOne({ mobileNo }).populate("Profile");
-
+		const user = await User.findOne({ mobileNo }).populate("profile").exec();
 		// If user not found with provided mobileNo
 		if (!user) {
 			// Return 401 Unauthorized status code with error message
@@ -181,7 +180,7 @@ exports.login = async (req, res) => {
 
 
 // Send OTP For mobileNo Verification
-exports.sendotp = async (req, res) => {
+export  const sendotp = async (req, res) => {
 	try {
 		const { mobileNo,email } = req.body;
 
@@ -233,7 +232,7 @@ exports.sendotp = async (req, res) => {
 
 
 // Controller for Changing Password
-exports.changePassword = async (req, res) => {
+export const changePassword = async (req, res) => {
 	try {
 		// Get user data from req.user
 		const userDetails = await User.findById(req.user.id);

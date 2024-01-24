@@ -1,4 +1,5 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose";
+import mailSender from "../utils/mailSender.js";
 const OTPSchema = mongoose.Schema({
     email: {
         require: true,
@@ -26,7 +27,7 @@ async function sendVerificationEmail(email, otp) {
 		const mailResponse = await mailSender(
 			email,
 			"Verification Email",
-			emailTemplate(otp)
+			otp
 		);
 		console.log("Email sent successfully: ", mailResponse.response);
 	} catch (error) {
@@ -47,4 +48,4 @@ OTPSchema.pre("save", async function (next) {
 	next();
 });
 
-module.exports = mongoose.model("OTP", OTPSchema);
+ export default mongoose.model("OTP", OTPSchema);
