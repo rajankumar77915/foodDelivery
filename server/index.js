@@ -21,10 +21,7 @@ app.use((req, res, next) => {
 });
 
 
-<<<<<<< HEAD
-=======
 app.use("/api/user", userRoutes);
->>>>>>> 85849e579b46441f8d25d8420348f8710bc83a29
 
 // connecting to the database(mongodb)
 mongoose.set("strictQuery", false);
