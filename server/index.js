@@ -41,9 +41,27 @@ app.listen(PORT, () => {
   console.log(`at ${PORT}`);
 });
 
+<<<<<<< HEAD
+
+app.use("/api/user", userRoutes);
+
+// connecting to the database(mongodb)
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    // listening request
+    app.listen(port, () => {
+      console.log(`Connected to Mongo & Listening on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+=======
 app.get("/", (req, res) => {
   return res.json({
     sucess: true,
     message: "your server is running up and running...",
+>>>>>>> 4a74a51c0aa02a007caa7cbb7cdafbda65ed294f
   });
 });
