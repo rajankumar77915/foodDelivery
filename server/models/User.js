@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
   accountType: {
     type: String,
     enum: ['admin', 'customer', 'deliveryBoy'],
-    required: true,
+    default:"customer"
   },
   firstName: {
     type: String,

@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import mailSender from "../utils/mailSender.js";
+// import mailSender from "../utils/mobileOtpSend.js";
+import mobileOtpSend from "../utils/mobileOtpSend.js";
 const OTPSchema = mongoose.Schema({
-    email: {
+    mobileNo: {
         require: true,
         type: String
     },
@@ -16,34 +17,32 @@ const OTPSchema = mongoose.Schema({
     }
 });
 
-// Define a function to send emails
-async function sendVerificationEmail(email, otp) {
-	// Create a transporter to send emails
+// Define a function to send mobileNos
+async function sendVerificationmobileNo(mobileNo, otp) {
+	// Create a transporter to send mobileNos
 
-	// Define the email options
+	// Define the mobileNo options
 
-	// Send the email
+	// Send the mobileNo
 	try {
-		const mailResponse = await mailSender(
-			email,
-			"Verification Email",
-			otp
+		const otpResponse = await mobileOtpSend(
+			mobileNo
 		);
-		console.log("Email sent successfully: ", mailResponse.response);
+		console.log("mobileNo sent successfully: ", otpResponse);
 	} catch (error) {
-		console.log("Error occurred while sending email: ", error);
+		console.log("Error occurred while sending mobileNo: ", error);
 		throw error;
 	}
 }
 
 
-// Define a post-save hook to send email after the document has been saved
+// Define a post-save hook to send mobileNo after the document has been saved
 OTPSchema.pre("save", async function (next) {
 	console.log("New document saved to database");
 
-	// Only send an email when a new document is created
+	// Only send an mobileNo when a new document is created
 	if (this.isNew) {
-		await sendVerificationEmail(this.email, this.otp);
+		await sendVerificationmobileNo(this.mobileNo, this.otp);
 	}
 	next();
 });

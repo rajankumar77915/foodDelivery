@@ -1,7 +1,7 @@
-const Profile = require("../models/Profile");
-const User = require("../models/User");
+import Profile from "../models/Profile";
+import User from "../models/User";
 
-exports.updateProfile = async (req, res) => {
+export const cd  = async (req, res) => {
     try {
         const { birthdate = "", address = "", pincode = "" } = req.body;
         const { firstName, lastName, id } = req.body; // Fix the typo from req.boy to req.body
@@ -54,7 +54,7 @@ exports.updateProfile = async (req, res) => {
     }
 };
 
-exports.deleteProfile = async (req, res) => {
+export const deleteProfile = async (req, res) => {
     try {
         const { id } = req.body;
         const user = await User.findById(id);
@@ -82,4 +82,37 @@ exports.deleteProfile = async (req, res) => {
             error: `Error at delete profile: ${error.message}`,
         });
     }
+};
+
+
+
+
+
+export const updateDisplayPicture = async (req, res) => {
+	try {
+		const displayPicture = req.files.displayPicture
+		const userId = req.user.id
+		const image = await uploadImageCloudinary(
+			displayPicture,
+			process.env.FOLDER_NAME,
+			1000,
+			1000
+		)
+		console.log("afetr::::::::::::", image)
+		const updatedProfile = await User.findByIdAndUpdate(
+			{ _id: userId },
+			{ image: image.secure_url },
+			{ new: true }
+		)
+		res.send({
+			success: true,
+			message: `Image Updated successfully`,
+			data: updatedProfile,
+		})
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: error.message,
+		})
+	}
 };

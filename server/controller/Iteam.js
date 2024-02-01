@@ -1,6 +1,7 @@
 import Item from '../models/Item.js'; 
 import RatingReview from '../models/RatingReview.js';
 import Category from '../models/Category.js';
+import { uploadImageCloudinary } from '../utils/uploadImageCloudinary.js';
 
 // Create a new item
 export const createItem = async (req, res) => {
@@ -10,7 +11,6 @@ export const createItem = async (req, res) => {
         description,
         price,
         tax,
-        image,
         category_id,
         isVeg,
         quantity,
@@ -24,6 +24,13 @@ export const createItem = async (req, res) => {
             message:"category not found"
         })
     }
+    // upload image to cloudinary
+    const image=req.files.image;
+    const filelImage = await uploadImageCloudinary(
+        image,
+        process.env.FOLDER_NAME
+    );
+    console.log(filelImage)
     //create Iteam/dish
     try {
         const newItem = new Item({
@@ -31,11 +38,13 @@ export const createItem = async (req, res) => {
             description,
             price,
             tax,
-            image,
+            image:filelImage.secure_url,
             category:category_id,
             isVeg,
             quantity,
         });
+
+     
 
         const savedItem = await newItem.save();
 

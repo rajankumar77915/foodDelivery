@@ -4,7 +4,13 @@ import mongoose from "mongoose";
 const profileSchema = new mongoose.Schema({
   image: { type: String, required: true },
   birthdate: { type: Date},
-  address: { type: String},
+  address: {
+    street: { type: String },
+    city: { type: String },
+    state: { type: String },
+    country: { type: String },
+    pincode: { type: Number },
+  },
   pincode: { type: Number},
 });
 
