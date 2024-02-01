@@ -37,13 +37,13 @@ export  const signup=async(req,res)=>{
 			}
 			// console.log("all field............. ",req.body.formData)
 		// Check if password and confirm password match
-		if (password !== confirmPassword) {
-			return res.status(400).json({
-				success: false,
-				message:
-					"Password and Confirm Password do not match. Please try again.",
-			});
-		}
+		// if (password !== confirmPassword) {
+		// 	return res.status(400).json({
+		// 		success: false,
+		// 		message:
+		// 			"Password and Confirm Password do not match. Please try again.",
+		// 	});
+		// }
 
         // Check if user already exists
         const existingUser=await User.findOne({mobileNo});
@@ -182,8 +182,9 @@ export  const login = async (req, res) => {
 // Send OTP For mobileNo Verification
 export  const sendotp = async (req, res) => {
 	try {
-		const { mobileNo,email } = req.body;
-
+		let { mobileNo,email } = req.body;
+		mobileNo="+"+mobileNo
+		console.log("rrrrrrrrrrrrrrrraaaaaaaaaaaaaaaaaaaajjjjjjjjjjjjjjjjjjaaaaaaaaaaaan",mobileNo)
 		// Check if user is already present
 		// Find user with provided mobileNo
 		const checkUserPresent = await User.findOne({ mobileNo });

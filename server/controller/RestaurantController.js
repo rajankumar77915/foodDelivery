@@ -151,30 +151,38 @@ export const getRestaurant = async (req, res) => {
 
 export const getDishes = async (req, res) => {
   try {
-    const user_id = req?.body?.id;
-    let { currentLocation } = req?.body
+    // const user_id = req?.body?.id;
+    let { id } = req?.params
+    const currentLocation=id
+    // console.log("current loc",req.params)
     // const user = await User.find({ user_id })
-    console.log(user_id,currentLocation)
+    // console.log(user_id,currentLocation)
     
     //if current location not found then  try to  gat from user_profile
-    if (user_id || user_id!==undefined) {
-      const user = await User.findById({ _id: user_id }).populate("profile").exec()
-      if (!currentLocation) {
-        currentLocation = user.profile?.pincode;
-        // console.log(profile,user_id)
-      }
-      else{
-        //set default location
-        currentLocation="39612"
-      }
+    // if (user_id || user_id!==undefined) {
+    //   const user = await User.findById({ _id: user_id }).populate("profile").exec()
+    //   if (!currentLocation) {
+    //     currentLocation = user.profile?.pincode;
+    //     // console.log(profile,user_id)
+    //   }
+     
 
-      if (!currentLocation) {
-        //select all dishes most  common dish
-        console.log("location required");
-        return res.json("location require")
-      }
+    //   // if (!currentLocation) {
+    //   //   //select all dishes most  common dish
+    //   //   console.log("location required");
+    //   //   return res.json("location require")
+    //   // }
+    // }
+    //default location if no way
+    if (!currentLocation) {
+      currentLocation = "385351"
     }
     const restaurants = await Restaurant.find({ pincode: currentLocation });
+
+// restaurants.forEach(restaurant => {
+//   console.log(restaurant.menu);
+// });
+
     if (!restaurants || restaurants.length === 0) {
       return res.status(404).json({
         success: false,
@@ -185,14 +193,14 @@ export const getDishes = async (req, res) => {
     // Retrieve the top 5 items for each restaurant
     const topFiveItemsByRestaurant = await Promise.all(
       restaurants.map(async (restaurant) => {
-        const topFiveItems = await Restaurant.findById(restaurant._id)
+        const topFiveItems = await Restaurant.findById(restaurant._id).populate('menu')
           .select({ 'menu': { $slice: 5 }, _id: 0 }) // Project only the first 5 items from the menu
           .sort({ 'menu.rating': -1 });
 
         return { restaurant: restaurant.name, items: topFiveItems };
       })
     );
-
+      console.log(topFiveItemsByRestaurant)
     res.status(200).json({
       success: true,
       message: "Top 5 items from each restaurant retrieved successfully",

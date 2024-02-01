@@ -9,7 +9,7 @@ router.post("/createRestaurant",auth,isAdmin,createRestaurant)
 router.delete("/deleteRestaurant/:id",auth,isAdmin,deleteRestaurant)
 router.put("/updateRestaurant/:id",auth,isAdmin,updateRestaurant)
 router.get("/restaurantDetail/:id",getRestaurant)
-router.get("/getDishes",getDishes)
+router.get("/getDishes/:id",getDishes)
 // router.get("/")
 
 export default router
