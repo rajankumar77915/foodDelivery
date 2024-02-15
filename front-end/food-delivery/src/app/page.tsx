@@ -7,6 +7,7 @@ import Homemenu from "./componant/layout/Homemenu"
 import Header from "./componant/layout/Header";
 import Footer from "./componant/layout/Footer";
 import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
 
 function Home() {
 
@@ -17,6 +18,15 @@ function Home() {
 
   //useDispatch updates the store with the state from a component, as defined by your logic inside the counterslice.js
   const dispatch = useDispatch();
+  useEffect(()=>{
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('sucess')) {
+      console.log("om");
+      localStorage.removeItem("cart")
+      localStorage.removeItem("total")
+      localStorage.removeItem("totalItems")
+    }
+  },[])
   return (
     <>
       <Header />

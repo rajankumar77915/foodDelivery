@@ -5,7 +5,7 @@ import { FaHandPointRight } from "react-icons/fa";
 const Hero = () => {
   return (
     <>
-      <section className="hero ml-8">
+      <section className="hero ml-8 flex">
         <div className="py-8 ml-48">
           <h1 className="text-6xl font-bold leading-tight">
             Everything
@@ -28,11 +28,12 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="relative">
-          <Image
-            src={"/burger.png"}
+        <div className="relative mt">
+          <img
+            src={"./burger.png"}
             layout={"fill"}
             objectFit={"contain"}
+            // width={00}
             alt="food1"
           /> 
 

@@ -22,9 +22,9 @@ const UserTabs = () => {
           </Link>
           <Link
             className={path === "/menu-items" ? "active" : ""}
-            href={"/menu-items"}
+            href={"/addFood"}
           >
-            Menu Items
+            Menu
           </Link>
           <Link className={path === "/users" ? "active" : ""} href={"/users"}>
             Users

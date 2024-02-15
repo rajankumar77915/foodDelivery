@@ -1,12 +1,12 @@
 // components/Pizzeria.js
 
 import Head from 'next/head';
-import  FoodDetail  from "../componant/perticularFood/FoodDetail"
-import  SimilarRestaurants  from "../componant/perticularFood/relatedHotel"
+import FoodDetail from "../componant/perticularFoodRestrunt/FoodDetail"
+import SimilarRestaurants from "../componant/perticularFoodRestrunt/relatedHotel"
 const Pizzeria = () => {
   return (
     <>
-    <FoodDetail/>
+      <FoodDetail />
       <Head>
         <title>La Milano Pizzeria</title>
         <meta charSet="UTF-8" />
@@ -23,12 +23,12 @@ const Pizzeria = () => {
         </div>
         {/* content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 py-5">
-                    
+
           {/* Add more items here */}
         </div>
-        
+
       </div>
-      <SimilarRestaurants/>
+      <SimilarRestaurants />
     </>
   );
 };

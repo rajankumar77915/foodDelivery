@@ -63,20 +63,20 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-gray-300 flex items-center justify-between">
+      <header className="bg-richblack-5 flex items-center justify-between">
         <Link className=" font-semibold text-2xl ml-11" href="">
           BiteBlitz
         </Link>
         <div className="flex justify-between">
-          <nav className="flex items-center gap-6 text-red-900 font-medium text-2xl">
+          <nav className="flex items-center gap-6  font-medium text-2xl">
             <Link href={"/"}>Home</Link>
-            <Link href={"/menu"}>Menu</Link>
+            {/* <Link href={"/menu"}>Menu</Link> */}
             <Link href={"/about"}>About</Link>
             
             <Link href={"/profile"}>profile</Link>
           </nav>
         </div>
-        <nav className="flex items-center gap-6 text-red-900 font-normal text-2xl mr-11 mt-1">
+        <nav className="flex items-center gap-6 text-pink-700 font-normal text-2xl mr-11 mt-1">
         <AuthLinks status={user?.firstName ? "authenticated" : "unauthenticated"} userName={userName} />
 
           {/* <AuthLinks status={status} userName={userName} /> */}

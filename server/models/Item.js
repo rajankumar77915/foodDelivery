@@ -19,6 +19,8 @@ const itemSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  foodVarity:[{type:String}],
+  foodTags:[{type:String}],
   category: { type: mongoose.Schema.Types.ObjectId, 
     ref: 'Category', required: true
   },
@@ -30,7 +32,7 @@ const itemSchema = new mongoose.Schema({
     type: Boolean, 
     required: true 
   },
-  quantity: { type: Number},
+  quantity: { type: Number,default:1},
 });
 const  Item = mongoose.model('Item', itemSchema);
 export   default Item

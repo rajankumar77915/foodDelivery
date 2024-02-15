@@ -4,13 +4,18 @@ import counterReducer from "./counterSlice";
 import authSlice from "./authSlice";
 import profileSlice from "./profileSlice"
 import cartSlice from "./cartSlice";
+import foodSlice from "./foodSlice";
+import viewCourseSlice from "./viewCourseSlice";
 
 
 const rootReducer = combineReducers({
   counter: counterReducer,
   auth:authSlice,
   profile: profileSlice,
-  cart:cartSlice
+  cart:cartSlice,
+  food:foodSlice,
+  viewCourse:viewCourseSlice
+
   //add all your reducers here
 },);
 

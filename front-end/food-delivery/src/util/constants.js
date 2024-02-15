@@ -4,3 +4,8 @@ export const ACCOUNT_TYPE = {
     ADMIN: "Admin",
   }
   
+
+  export const FOOD_STATUS = {
+    DRAFT: "Draft",
+    PUBLISHED: "Published",
+  }

@@ -1,7 +1,7 @@
 import Item from '../models/Item.js'; 
-import RatingReview from '../models/RatingReview.js';
 import Category from '../models/Category.js';
 import { uploadImageCloudinary } from '../utils/uploadImageCloudinary.js';
+import RatingReview from '../models/ratingReview.js';
 
 // Create a new item
 export const createItem = async (req, res) => {
@@ -101,8 +101,14 @@ export const getItemById = async (req, res) => {
             });
         }
 
+        
+        //now send type type of items
+        const relatedData=await Item.find({category:item.category})
+        const filteredData = relatedData.filter(item1 => item1.id !== item.id);
+
         return res.status(200).json({
             data: item,
+            relatedData:filteredData,
             success: true,
             message: "Successfully retrieved item",
         });

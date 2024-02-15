@@ -1,14 +1,24 @@
-import Profile from "../models/Profile";
-import User from "../models/User";
+import Profile from "../models/Profile.js";
+import User from "../models/User.js";
 
-export const cd  = async (req, res) => {
+export const  updateProfile  = async (req, res) => {
     try {
-        const { birthdate = "", address = "", pincode = "" } = req.body;
-        const { firstName, lastName, id } = req.body; // Fix the typo from req.boy to req.body
-
+        
+        const { birthdate="", address="", pincode=""} = req?.body;
+        const { firstName="", lastName="" } = req.body; // Fix the typo from req.boy to req.body
+        const id=req.user.id
+        console.log("updateProfile:",req.body)
         // Find the profile by id
         const userDetails = await User.findById(id);
-        const profile = await Profile.findById(userDetails.additionalDetails);
+        
+
+        if(!userDetails){
+            return res.status(500).json({
+                success:false,
+                message:"user not found login again"
+            })
+        }
+        const profile = await Profile.findById(userDetails.profile);
 
         const updateFields = {}; // Initialize an empty object for the update
 
@@ -19,6 +29,7 @@ export const cd  = async (req, res) => {
         if (lastName) {
             updateFields.lastName = lastName;
         }
+       
 
         if (Object.keys(updateFields).length > 0) {
             // Only perform the update if there are fields to update
@@ -26,24 +37,30 @@ export const cd  = async (req, res) => {
         }
 
         // Update the profile fields
-        profile.birthdate = new Date(birthdate);
-        profile.address = address;
+        
+        if(address){
+            profile.address = address;
+        }
+        if(pincode)
         profile.pincode = pincode;
+        
+        if(birthdate)
+            profile.birthdate = new Date(birthdate);
 
         // Save the updated profile
         await profile.save();
 
         // Use direct path in findById for population
-        const updatedProfile = await User.findById(id).populate("additionalDetails");
+        const updatedProfile = await User.findById(id).populate("profile");
 
         // Remove sensitive information before sending the response
         updatedProfile.password = '';
         updatedProfile.resetPasswordExpires = '';
-
+        console.log("done")
         return res.status(200).json({
             success: true,
             message: "Profile updated successfully",
-            updatedProfile,
+            user:updatedProfile,
         });
     } catch (error) {
         console.log(error);

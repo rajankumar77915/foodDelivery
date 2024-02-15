@@ -3,7 +3,6 @@ import MenuItem from "../menu/MenuItem";
 
 const Homemenu = () => {
   const [restaurants, setRestaurants] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,22 +22,18 @@ const Homemenu = () => {
     <>
       <section>
         <div className="text-center">
-          <h3 className="uppercase text-gray-400 font-semibold leading-4">
+          <h3 className="uppercase text-richblack-200 font-semibold leading-4">
             checkout
           </h3>
           <h2 className="mb-4 text-red italic font-bold text-4xl">menu</h2>
         </div>
         
           <div className="mr-2 ml-2 m-4 gap-5 flex flex-wrap justify-around pl-32 pr-32">
-            {restaurants.map((restaurant, index) => (
+            {restaurants?.map((restaurant, index) => (
               restaurant.items.menu.map(item => (
                 <MenuItem 
                   key={item._id}
-                  _id={item._id}
-                  image={item.image}
-                  itemName={item.itemName}
-                  description={item.description}
-                  price={item.price}
+                  item={item}
                 />
               ))
             ))}

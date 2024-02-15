@@ -65,10 +65,30 @@ const initialState = {
       localStorage.removeItem("total")
       localStorage.removeItem("totalItems")
     },
+
+
+    updateCartItemQuantity: (state, action) => {
+      const { foodId, quantity } = action.payload;
+      const index = state.cart.findIndex((item) => item._id === foodId);
+    
+      if (index >= 0) {
+        // Update the quantity of the item in the cart
+        state.cart[index].quantity = quantity;
+    
+        // Recalculate total and totalItems based on the updated quantity
+        state.total = state.cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
+        state.totalItems = state.cart.reduce((acc, curr) => acc + curr.quantity, 0);
+    
+        // Update localStorage
+        localStorage.setItem("cart", JSON.stringify(state.cart));
+        localStorage.setItem("total", JSON.stringify(state.total));
+        localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+      }
+    }
   },
 })
 
-export const { addToCart, removeFromCart, resetCart } = cartSlice
+export const { addToCart, removeFromCart, resetCart,updateCartItemQuantity } = cartSlice
 .actions
 
 export default cartSlice.reducer

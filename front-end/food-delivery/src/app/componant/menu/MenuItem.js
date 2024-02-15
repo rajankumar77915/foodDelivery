@@ -1,15 +1,20 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import RatingStarts from '../RatingStars'
-import {addToCart} from '../../../lib/cartSlice'
+import { addToCart } from '../../../lib/cartSlice'
 import { useDispatch } from "react-redux";
-
-const MenuItem = ({_id, image, itemName, description, price }) => {
+import { useRouter } from "next/navigation";
+import { fetchFoodSameCategory} from '../../../services/functions/foodDetailsAPI'
+import { setFood } from "@/lib/foodSlice"
+const MenuItem = ({item}) => {
   const dispatch = useDispatch();
-
+  const navigate = useRouter()
   const handleAddToCart = () => {
-    dispatch(addToCart({_id, image, itemName, description, price }));
+    dispatch(addToCart( item));
+
+    
   };
+  
   return (
 
     <div
@@ -17,41 +22,36 @@ const MenuItem = ({_id, image, itemName, description, price }) => {
        hover:shadow-black/50 transition-all relative"
     >
 
-      {/* <div className="h-64 object-fill relative">
+      <div className="text-center relative" onClick={async() => {
+        const myResult=await fetchFoodSameCategory(item?._id)
+        dispatch(setFood({myResult}))
+        console.log("mmmmmmmmmmmennnnnnuuuuuuuu",item._id)
+        
+        navigate.push("/particularFood")}}>
         <Image
 
-          src={image}
-          alt="bugger"
-          className="h-30  mx-auto rounded-xl"
-          height={100}
-          width={300}
-          // layout="fill" 
-        /> */}
-        <div className="text-center relative">
-        <Image
-
-          src={image}
+          src={item.image}
           alt="bugger"
           className="mx-h-auto max-h-48 block mx-auto rounded-lg"
           height={100}
           width={300}
-          // layout="fill" 
+        // layout="fill" 
         />
-        <div className="flex  right-0 absolute w-36 bottom-0 mr-9 text-white p-0.5 bg-slate-900 ">
+        <div className="flex  right-0 absolute w-36 bottom-0 mr-9 text-white p-0.5 bg-richblack-700 ">
           <RatingStarts Review_Count={4.2} Star_Size={19} />
           4.2
         </div>
       </div>
-      <h4 className="font-semibold text-xl my-3">{itemName}</h4>
+      <h4 className="font-semibold text-xl my-3">{item?.itemName}</h4>
 
       <div>
 
         <p className="text-gray-500 text-sm">
-          {description}
+          {item?.description}
         </p>
       </div>
-      <button className="mt-4 bg-red-500 text-white rounded-full px-8 py-2" onClick={handleAddToCart}>
-        add to cart ${price}.
+      <button className="mt-4  text-white bg-red-400 rounded-full px-8 py-2 w-full" onClick={handleAddToCart}>
+        add to cart ${item?.price}.
       </button>
     </div>
 

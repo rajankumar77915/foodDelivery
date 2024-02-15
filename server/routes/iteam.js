@@ -11,7 +11,7 @@ import {
   addItemRatingReview,
 } from "../controller/Iteam.js";
 
-import { createCategory,updateCategoryById } from "../controller/Category.js";
+import { createCategory,getAllCategories,updateCategoryById } from "../controller/Category.js";
 
 //import middleware
 import { auth, isAdmin, isCustomer } from "../middlewares/auth.js";
@@ -42,6 +42,7 @@ router.post("/addItemRatingReview/:id", auth, isCustomer,addItemRatingReview);
 //                                      category
 // ********************************************************************************************************
 // Route for creating an item
+router.get("/getAllCategories",  getAllCategories);
 router.post("/createCategory", auth, isAdmin, createCategory);
 router.put("/updateCategory/:id", auth, isAdmin, updateCategoryById);
 export default router;  

@@ -10,6 +10,11 @@ export const endpoints = {
   CHANGE_PASSWORD_API: BASE_URL + "/profile/changepassword",
   UPDATE_PROFILE_API: BASE_URL + "/profile/updateProfile/",
   UPDATE_DISPLAY_PICTURE_API: BASE_URL + "/profile/updateDisplayPicture",
-  DELETE_PROFILE_API: BASE_URL + "/profile/deleteProfile"
+  DELETE_PROFILE_API: BASE_URL + "/profile/deleteProfile",
+  FOOD_PAYMENT_API:BASE_URL+"/auth/payment" ,
+  // UPDATE_PROFILE_API: BASE_URL+"/profile/updateProfile",
+  FOOD_CATEGORIES_API:BASE_URL+"/iteam/getAllCategories", 
+  FOOD_IDCATEGORIES_API:BASE_URL+"/iteam/getItemById", 
+  CREATE_FOOD_API:BASE_URL+"/restaurant/menu/add",
 }
 
