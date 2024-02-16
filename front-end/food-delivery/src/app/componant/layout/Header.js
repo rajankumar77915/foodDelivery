@@ -1,6 +1,6 @@
 // import Head from "next/head";
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaCartPlus } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
@@ -61,16 +61,36 @@ const Header = () => {
     userName = userName.split(" ")[0];
   }
 
+  const [search , setSearch]=useState("");
+  async function fetchSearched(e){
+     setSearch(e.target.value);
+   
+  }
+  useEffect(()=>{
+     console.log("search",search)
+  },[search])
+
   return (
     <>
       <header className="bg-richblack-5 flex items-center justify-between">
         <Link className=" font-semibold text-2xl ml-11" href="">
           BiteBlitz
         </Link>
+        <div className="w-64 relative">
+        <input className="p-2 border border-black rounded-lg w-full " type="string" placeholder="Search"  onChange={fetchSearched}/>
+        {/* <ol className="absolute bg-richblack-100  text-black w-full z-10 rounded-lg">
+          <label className="line-clamp-1 ">sknskns sknskns sknskns sknskns <sub className="ml-1">hellow world</sub></label>
+          <label className="line-clamp-1 ">sknskns sknskns <sub className="ml-1">hellow world</sub></label>
+          <label className="line-clamp-1 ">sknskns sknskns <sub className="ml-1">hellow world</sub></label>
+          <li>sknskns</li>
+          <li>sknskns</li>
+        </ol> */}
+        </div>
         <div className="flex justify-between">
           <nav className="flex items-center gap-6  font-medium text-2xl">
             <Link href={"/"}>Home</Link>
             {/* <Link href={"/menu"}>Menu</Link> */}
+            Swa
             <Link href={"/about"}>About</Link>
             
             <Link href={"/profile"}>profile</Link>

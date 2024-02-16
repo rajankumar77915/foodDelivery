@@ -3,7 +3,7 @@ import express from "express";
 const router = express.Router()
 import stripe from 'stripe';
 
-const stripeSecretKey = 'sk_test_51OiV6DSE4ou3ybiqIfrwKdJrAzCdtUZ8ODFjDwjznEsNOILMFztIJJS3nT5xslrZd6C2vgVirooFhwKOm2XLanxr00LOKwfXyc';
+const stripeSecretKey = '';
 const stripeInstance = stripe(stripeSecretKey);// Import the required controllers and middleware functions
 import {login ,signup, sendotp, changePassword} from "../controller/Auth.js";
 

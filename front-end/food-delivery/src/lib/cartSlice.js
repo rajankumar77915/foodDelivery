@@ -29,7 +29,7 @@ const initialState = {
       }
       // If the food is not in the cart, add it to the cart
       state.cart.push(food)
-      // Update the total quantity and price
+      // Update the total qu antity and price
       state.totalItems++
       state.total += food.price
       // Update to localstorage
