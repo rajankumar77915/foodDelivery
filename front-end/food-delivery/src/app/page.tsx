@@ -20,7 +20,7 @@ function Home() {
   const dispatch = useDispatch();
   useEffect(()=>{
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('sucess')) {
+    if (urlParams.has('success')) {
       console.log("om");
       localStorage.removeItem("cart")
       localStorage.removeItem("total")

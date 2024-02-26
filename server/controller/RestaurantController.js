@@ -239,7 +239,7 @@ export const addMenu = async (req, res) => {
       isVegBool=true;
     }
     // Create a new item
-    const newItem = new Item({ itemName:foodName, description:foodDescription, price, tax, image:myUploadedImage.secure_url, foodVarity:FoodType,foodTags:tag, category, isVeg:isVegBool, quantity });
+    const newItem = new Item({ itemName:foodName, description:foodDescription, price, tax,restaurantId:restaurant_id, image:myUploadedImage.secure_url, foodVarity:FoodType,foodTags:tag, category, isVeg:isVegBool, quantity });
     await newItem.save();
 
     // Add the new item to the restaurant's menu

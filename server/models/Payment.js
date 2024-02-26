@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 const paymentSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  transactionId: { type: String, required: true },
-  amount: { type: Number, required: true },
+  amount: { type: Number },
   currency: { type: String, required: true },
   razorpayOrderId: { type: String, required: true },
   razorpayPaymentId: { type: String, required: true },
@@ -11,4 +10,4 @@ const paymentSchema = new mongoose.Schema({
 
 
 const Payment = mongoose.model('Payment', paymentSchema);
-module.exports = Payment;
+export default Payment

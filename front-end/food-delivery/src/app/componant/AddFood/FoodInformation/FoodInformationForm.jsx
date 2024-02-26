@@ -164,7 +164,7 @@ export default function FoodInformationForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-700 p-6"
+      className="space-y-8 rounded-md border-[1px]  bg-richblack-400 p-6"
     >
       {/* Food Title */}
       <div className="flex flex-col space-y-2">

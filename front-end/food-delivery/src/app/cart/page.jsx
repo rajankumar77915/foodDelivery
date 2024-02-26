@@ -13,7 +13,7 @@ export default function Cart() {
 
   // console.log("cart is caleed",totalItems1)
   return (
-    <div className="">
+    <div className="p-10">
       <h1 className="mb-14 text-3xl font-medium text-richblack-5">Cart</h1>
 
       {total > 0 &&

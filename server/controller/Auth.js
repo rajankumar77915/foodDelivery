@@ -7,7 +7,7 @@ import Profile from "../models/Profile.js"
 import jwt from "jsonwebtoken"
 import { passwordUpdated } from "../templates/passwordUpdate.js"
 import {mobileOtpSend} from "../utils/mobileOtpSend.js";
-import verifyOtp from "../utils/mobileOtpSend.js";
+import {verifyOtp} from "../utils/mobileOtpSend.js";
 // import {verifyOtp}  from "../utils/mobileOtp.js";
 
 // Signup Controller for Registering User
@@ -21,9 +21,10 @@ export const signup = async (req, res) => {
 			password,
 			confirmPassword,
 			otp,
+			restaurantId,
 			accountType
-		} = req.body.formData;
-		let {mobileNo}=req.body.formData
+		} = req.body;
+		let {mobileNo}=req.body
 		mobileNo="+"+mobileNo
 		console.log(req.body)
 		// Check if All Details are there or not
@@ -58,12 +59,12 @@ export const signup = async (req, res) => {
 			})
 		}
 		console.log("otpRes", otpRes)
-		// if(otpRes.valid==false){
-		// 		return res.status(403).json({
-		// 			sucess:false,
-		// 			message:"please enter valid otp"
-		// 		})
-		// }
+		if(otpRes.valid==false){
+				return res.status(403).json({
+					sucess:false,
+					message:"please enter valid otp"
+				})
+		}
 		// if(!otpRes.valid===false){
 		// 	return res.status(400).json({
 		// 		sucess:false,
@@ -115,6 +116,7 @@ export const signup = async (req, res) => {
 			email,
 			mobileNo,
 			password: hashedPassword,
+			restaurantId:restaurantId,
 			accountType,
 			profile: profileDetails._id,
 

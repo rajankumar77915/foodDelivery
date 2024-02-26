@@ -15,7 +15,8 @@ const {
   DELETE_FOOD_API,
   GET_FULL_FOOD_DETAILS_AUTHENTICATED,
   CREATE_RATING_API,
-  FOOD_IDCATEGORIES_API
+  FOOD_IDCATEGORIES_API,
+  findAllorderForuser_API
 } = endpoints
 
 export const getAllFoods = async () => {
@@ -290,3 +291,44 @@ export const fetchFoodSameCategory = async (id) => {
   }
   return result
 }
+
+
+export const getOrders = async (token) => {
+  let result = [];
+  const toastId = toast.loading("Loading Orders...");
+  try {
+    const response = await apiConnector("GET", GET_ORDERS_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
+    console.log("GET_ORDERS_API RESPONSE:", response);
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch Orders");
+    }
+    result = response?.data?.data;
+  } catch (error) {
+    console.log("GET_ORDERS_API ERROR:", error);
+    toast.error(error.message);
+  }
+  toast.dismiss(toastId);
+  return result;
+};
+
+export const findAllorderForuser = async (token) => {
+  let result = [];
+  const toastId = toast.loading("Loading Orders...");
+  try {
+    const response = await apiConnector("GET", findAllorderForuser_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
+    console.log("GET_ORDERS_API RESPONSE:", response);
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch Orders");
+    }
+    result = response?.data?.data;
+  } catch (error) {
+    console.log("GET_ORDERS_API ERROR:", error);
+    toast.error(error.message);
+  }
+  toast.dismiss(toastId);
+  return result;
+};

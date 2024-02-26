@@ -1,24 +1,27 @@
-const SubsectionOrder = require("../models/SubsectionOrder")
-const Order = require("../models/Order")
+import Order from "../models/Order.js";
+import SubsectionOrder from "../models/SubsectionOrder.js";
+import User from "../models/User.js";
+
+
 
 export const createOrder = async (req, res) => {
     try {
-        const { user } = req.user;
-        const { itemsWithqunitity = [], deliveryAddress = user.deliveryAddress } = req.body;
-
+        console.log("oomomomomomomomomom",req.user)
+        const  user = req.user;
+        const { subSection = [],order } = req.body;
         
-
-        if(!itemsWithqunitity || !deliveryAddress || !user){
+        const findUser=await  User.findById(user.id).populate("profile")
+        if(!subSection || !findUser){
             return   res.status(404).json({
                 success: false,
                 message: "all field require  too createorder",
             });
         }
         // Create subsections
-        let subsectionArray = [];
-        for (const item of itemsWithqunitity) {
+        let subsectionArray = []; 
+        for (const item of subSection) {
             const tempSubOrder = await SubsectionOrder.create({
-                items: item.items,
+                item: item.item,
                 available: true,
                 qunitity: item.qunitity,
                 orderStatus: "pending_orderReq"
@@ -28,9 +31,9 @@ export const createOrder = async (req, res) => {
 
         // Create order
         const newOrder = await Order.create({
-            user: user,
+            user: findUser,
             SubsectionOrder: subsectionArray,
-            deliveryAddress: deliveryAddress,
+            deliveryAddress: findUser.profile.address,
         });
 
         return res.status(200).json({
@@ -45,6 +48,21 @@ export const createOrder = async (req, res) => {
         });
     }
 };
+
+
+const getOrder=async(req,res)=>{
+    const user=req.user;
+    //is user exist
+    const findUser=await  User.findById(user.id);
+    if(!findUser){
+        return res.status(500).json({
+            success:false,
+            message:"use not authicated"
+        })
+    }
+    
+
+}
 
 const changeOrderStatus = async (req, res) => {
     try {
@@ -99,3 +117,31 @@ const getAllOrder = async (req, res) => {
         });
     }
 };
+
+export const findAllorderForuser=  async(req,res)=>{
+    try {
+        const userId=req.user.id;
+        // Step 1: Find the restaurantId associated with the user
+        const RestaurantOwner = await User.findById(userId).populate("restaurantId")
+        console.log("rid",RestaurantOwner)
+        const RestaurantId=RestaurantOwner.restaurantId;
+        const orders = await Order.find({
+           
+        }).populate({
+            path: "SubsectionOrder", 
+            populate: { path: 'item', match: { 'restaurantId':  RestaurantId}}
+        });
+        
+        
+        const orders1 = await Order.find({
+            'SubsectionOrder': "65d1d350b2ed76912923df82"
+          }).populate({path:"SubsectionOrder",populate:{path:'item',populate:{path:'restaurantId'}}});
+        console.log("jnjdndjndjndjndjdnjdnjndjndjdnjdnjdndjndjndjdnjdnjd ",orders)
+        
+    
+        return res.json(orders);
+      } catch (error) {
+        console.error('Error finding orders:', error);
+        throw error; // You might want to handle this error more gracefully
+      }
+}

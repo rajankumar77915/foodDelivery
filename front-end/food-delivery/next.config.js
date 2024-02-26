@@ -8,7 +8,8 @@ const nextConfig = {
           'api.dicebear.com',
           'pixabay.com',
           'res.cloudinary.com',
-          'api.dicebear.com'
+          'api.dicebear.com',
+          'https://api.dicebear.com'
       ],
   },
   domains: ["pixabay.com"],

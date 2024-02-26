@@ -18,14 +18,14 @@ const MenuItem = ({item}) => {
   return (
 
     <div
-      className="w-96  bg-gray-50 p-4 rounded-lg text-center group hover:bg-white hover:shadow-md
-       hover:shadow-black/50 transition-all relative"
+      className="w-96  bg-gradient-to-r from-richblack-25 from-10% via-richblack-25 via-30% to-richblack-100 to-90%  p-4 rounded-lg text-black text-center group shadow-md
+       shadow-black-50 hover:shadow-richblack-700 transition-all relative"
     >
 
       <div className="text-center relative" onClick={async() => {
         const myResult=await fetchFoodSameCategory(item?._id)
         dispatch(setFood({myResult}))
-        console.log("mmmmmmmmmmmennnnnnuuuuuuuu",item._id)
+       
         
         navigate.push("/particularFood")}}>
         <Image
@@ -34,10 +34,10 @@ const MenuItem = ({item}) => {
           alt="bugger"
           className="mx-h-auto max-h-48 block mx-auto rounded-lg"
           height={100}
-          width={300}
+          width={350}
         // layout="fill" 
         />
-        <div className="flex  right-0 absolute w-36 bottom-0 mr-9 text-white p-0.5 bg-richblack-700 ">
+        <div className="flex  right-0 absolute w-36 bottom-0  text-white p-0.5 bg-richblack-700 ">
           <RatingStarts Review_Count={4.2} Star_Size={19} />
           4.2
         </div>
@@ -51,7 +51,7 @@ const MenuItem = ({item}) => {
         </p>
       </div>
       <button className="mt-4  text-white bg-red-400 rounded-full px-8 py-2 w-full" onClick={handleAddToCart}>
-        add to cart ${item?.price}.
+        add to cart ₹{item?.price}.
       </button>
     </div>
 

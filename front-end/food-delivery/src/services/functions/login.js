@@ -35,7 +35,7 @@ export function login(mobileNo, password,navigate) {
             localStorage.setItem("user",JSON.stringify({ ...response.data.user, image: userImage }))
             // cookies().set('token',  JSON.stringify(response.data.token))
             localStorage.setItem("token", JSON.stringify(response.data.token))
-            navigate("/profile")
+            navigate("/")
         } catch (error) {
             console.log("LOGIN API ERROR............", error)
             toast.error("Login Failed")

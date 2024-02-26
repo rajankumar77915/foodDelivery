@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import IconBtn from "../IconBtn"
 import { BuyIteam } from "../../../services/functions/FeaturesAPI"
 import { useRouter } from "next/navigation"
+import { BuyFood } from "../../../services/functions/payment"
 
 export default function RenderTotalAmount() {
   const cart  = useSelector((state) => state?.cart)
@@ -22,7 +23,8 @@ export default function RenderTotalAmount() {
       itemName: food?.itemName
     })))
     console.log(foods)
-    BuyIteam(token, foods, user, navigate.push, dispatch)
+    BuyFood(token, foods, user, navigate.push, dispatch)
+    // BuyIteam(token, foods, user, navigate.push, dispatch)
   }
 
   return (

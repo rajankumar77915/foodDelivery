@@ -19,16 +19,33 @@ const Homemenu = () => {
   }, []);
 
   return (
-    <>
+    <div className="mx-2 bg-gradient-to-r from-purple-25 to-blue-5 rounded-lg">
       <section>
-        <div className="text-center">
+        <div className="text-center pt-3">
           <h3 className="uppercase text-richblack-200 font-semibold leading-4">
             checkout
           </h3>
-          <h2 className="mb-4 text-red italic font-bold text-4xl">menu</h2>
+         
+          <h2 className="mb-4 text-red italic font-bold text-4xl">MENU</h2>
         </div>
         
-          <div className="mr-2 ml-2 m-4 gap-5 flex flex-wrap justify-around pl-32 pr-32">
+          <div className="mr-2 ml-2 m-4 gap-4 flex flex-wrap justify-around lg:px-32 ">
+            {restaurants?.map((restaurant, index) => (
+              restaurant.items.menu.map(item => (
+                <MenuItem 
+                  key={item._id}
+                  item={item}
+                />
+              ))
+            ))}
+            {restaurants?.map((restaurant, index) => (
+              restaurant.items.menu.map(item => (
+                <MenuItem 
+                  key={item._id}
+                  item={item}
+                />
+              ))
+            ))}
             {restaurants?.map((restaurant, index) => (
               restaurant.items.menu.map(item => (
                 <MenuItem 
@@ -40,7 +57,7 @@ const Homemenu = () => {
           </div>
 
       </section>
-    </>
+    </div>
   );
 };
 

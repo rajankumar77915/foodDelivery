@@ -28,6 +28,10 @@ const itemSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'RatingReview'
   }],
+  restaurantId: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Restaurant'
+  },
   isVeg: { 
     type: Boolean, 
     required: true 

@@ -1,4 +1,4 @@
-const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_SERVICE_SID } = process.env;
+const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, verifySid } = process.env;
 import twilio from 'twilio';
 // const twilio = require('twilio');
 import Twilio from 'twilio';
@@ -23,10 +23,10 @@ export async function mobileOtpSend(phoneNumber) {
 }
 
 export async function  verifyOtp (phoneNumber, otpCode) {
+  console.log("helloo")
   const res=await client.verify.v2.services(verifySid)
-    .verificationChecks.create({ to: phoneNumber, code: otpCode})
-    // .then((verificationCheck)=>{ return verificationCheck });
-    // console.log("response: ",res);
+  .verificationChecks.create({ to: phoneNumber, code: otpCode})
+
     return res;
 }
 

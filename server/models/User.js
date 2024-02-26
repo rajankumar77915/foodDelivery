@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpires:{
       type:Date
   },
+  restaurantId: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Restaurant'
+  },
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
   payments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Payment' }],
   profile: { type: mongoose.Schema.Types.ObjectId, ref: 'Profile' },

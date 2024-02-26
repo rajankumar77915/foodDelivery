@@ -5,6 +5,8 @@ import restaurantRoutes from "./routes/resturant.js";
 import userRoutes from "./routes/user.js";
 import   itemRoutes from "./routes/iteam.js"
 import ProfileRoutes from "./routes/profile.js";
+import OrderRoutes from "./routes/order.js";
+import paymentRoutes from './routes/Payments.js'
 import { dbConnection } from "./config/database.js";
 import cookieParser from "cookie-parser";
 import cors from "cors"; //use to entertaint frontend
@@ -36,6 +38,8 @@ app.use("/api/v1/auth",userRoutes);
 app.use("/api/v1/restaurant", restaurantRoutes);
 app.use("/api/v1/iteam",itemRoutes)
 app.use("/api/v1/profile",ProfileRoutes)
+app.use("/api/v1/payment",paymentRoutes);
+app.use("/api/v1/order",OrderRoutes)
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

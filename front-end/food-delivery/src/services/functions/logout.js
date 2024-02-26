@@ -7,9 +7,9 @@ import {Setuser } from "../../lib/profileSlice"
       dispatch(Settoken(null))
       dispatch(Setuser(null))
       // dispatch(resetCart())
-      localStorage.removeItem("token")
-      localStorage.removeItem("user")
+      localStorage?.removeItem("token")
+      localStorage?.removeItem("user")
       toast.success("Logged Out")
-      navigate("/")
+      navigate("/login")
     }
   }
