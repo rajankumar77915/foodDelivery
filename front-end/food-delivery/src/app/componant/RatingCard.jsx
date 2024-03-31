@@ -18,7 +18,7 @@ const RatingCard = ({ ratingData, currentRating, setCurrentRating }) => {
           {ratingData?.restaurantName}
         </div>
 
-        <div className="text-richblack-400">{ratingData?.review}</div>
+        <div className="text-richblack-400 overflow-auto h-36">{ratingData?.review}</div>
       </div>
 
       <div

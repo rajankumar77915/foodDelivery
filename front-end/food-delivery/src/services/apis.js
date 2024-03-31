@@ -18,6 +18,7 @@ export const endpoints = {
   FOOD_IDCATEGORIES_API:BASE_URL+"/iteam/getItemById", 
   CREATE_FOOD_API:BASE_URL+"/restaurant/menu/add",
   findAllorderForuser_API:BASE_URL+"/order/findAllorderForuser",
+  GET_RestruntData_FOODS_API:BASE_URL+"/restaurant/getMangerRestaurant"
 }
 
 

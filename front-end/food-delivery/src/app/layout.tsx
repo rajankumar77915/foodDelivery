@@ -4,11 +4,8 @@ import { store } from "../lib/store";
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { configureStore } from "@reduxjs/toolkit";
-import Header from "./componant/layout/Header";
-import Footer from "./componant/layout/Footer";
 import { Toaster } from "react-hot-toast";
-
+import 'flowbite';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -23,9 +20,9 @@ export default function RootLayout({
     <Provider store={store}>
     <html lang="en">
       
-      <body className={inter.className}>
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'></link>
+      <body className={inter.className} style={{fontFamily:"'Poppins'"}}>
       <Toaster/>
-      
         {children}</body>
       
     </html>

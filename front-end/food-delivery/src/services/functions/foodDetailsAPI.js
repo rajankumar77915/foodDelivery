@@ -16,7 +16,8 @@ const {
   GET_FULL_FOOD_DETAILS_AUTHENTICATED,
   CREATE_RATING_API,
   FOOD_IDCATEGORIES_API,
-  findAllorderForuser_API
+  findAllorderForuser_API,
+  GET_RestruntData_FOODS_API
 } = endpoints
 
 export const getAllFoods = async () => {
@@ -332,3 +333,35 @@ export const findAllorderForuser = async (token) => {
   toast.dismiss(toastId);
   return result;
 };
+
+
+
+
+
+
+// fetching all courses under a specific Restrant
+export const getRestruntData = async (token) => {
+  let result = []
+  const toastId = toast.loading("Loading...")
+  // console.log("token: ",)
+  try {
+    const response = await apiConnector(
+      "GET",
+      GET_RestruntData_FOODS_API,
+      null,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    )
+    console.log("Restrant Detail API RESPONSE............", response.data)
+    // if (!response?.data?.status!==200) {
+    //   throw new Error("Could Not Fetch Restrant Foods")
+    // }
+    result = response?.data
+  } catch (error) {
+    console.log("Restrant FOODS API ERROR............", error)
+    toast.error(error.message)
+  }
+  toast.dismiss(toastId)
+  return result
+}

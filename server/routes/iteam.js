@@ -14,13 +14,13 @@ import {
 import { createCategory,getAllCategories,updateCategoryById } from "../controller/Category.js";
 
 //import middleware
-import { auth, isAdmin, isCustomer } from "../middlewares/auth.js";
+import { auth, isAdmin, isCustomer, isRestruntManager } from "../middlewares/auth.js";
 
 // ********************************************************************************************************
 //                                      item
 // ********************************************************************************************************
 // Route for creating an item
-router.post("/createItem", auth, isAdmin, createItem);
+router.post("/createItem", auth, isRestruntManager, createItem);
 
 // Route for updating an item by ID
 router.put("/updateItem/:id", auth, isAdmin, updateItemById);

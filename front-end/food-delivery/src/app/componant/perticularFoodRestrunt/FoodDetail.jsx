@@ -101,15 +101,7 @@ const FoodDetail = () => {
         
       </div>
 
-
-
       {/* Add image component here */}
-
-
-
-
-
-
     </>
   );
 };

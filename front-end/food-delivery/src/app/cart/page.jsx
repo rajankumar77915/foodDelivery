@@ -1,6 +1,6 @@
 'use client'
 import { useSelector } from "react-redux"
-
+import { FaShoppingCart } from "react-icons/fa";
 import RenderCartCourses from "../componant/Cart/RenderCartCourses"
 import RenderTotalAmount from "../componant/Cart/RenderTotalAmount"
 import Addresh from "../componant/Cart/Addresh"
@@ -13,8 +13,8 @@ export default function Cart() {
 
   // console.log("cart is caleed",totalItems1)
   return (
-    <div className="p-10">
-      <h1 className="mb-14 text-3xl font-medium text-richblack-5">Cart</h1>
+    <div className="p-10  ">
+      <h1 className="mb-14 text-3xl font-medium text-richblack-800 flex gap-2"><FaShoppingCart/>Cart</h1>
 
       {total > 0 &&
         <Addresh />

@@ -10,75 +10,86 @@ import { logout } from "../../../services/functions/logout";
 
 // Dummy sidebar links
 const sidebarLinks = [
-  { id: 1, name: "DashBord", path: "Dashbord/categories", icon: "VscDashboard" },
-  { id: 2, name: "current Orders", path: "order", icon: "VscLibrary" },
-  { id: 3, name: "Add Menu", path: "/addFood", icon: "VscAdd" },
+   { id: 1, name: "DashBord", path: "analysis", icon: "VscGraphLine" },
+   { id: 2, name: "current Orders", path: "order", icon: "VscLibrary" },
+   { id: 3, name: "Add Menu", path: "/addFood", icon: "VscAdd" },
 ];
 
 export default function Sidebar() {
-  const { user, loading: profileLoading } = useSelector(
-    (state) => state.profile
-  );
-  const { loading: authLoading } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const navigate = useRouter();
-  // to keep track of confirmation modal
-  const [confirmationModal, setConfirmationModal] = useState(null);
+   const { user, loading: profileLoading } = useSelector(
+      (state) => state.profile
+   );
+   const { loading: authLoading } = useSelector((state) => state.auth);
+   const dispatch = useDispatch();
+   const navigate = useRouter();
+   // to keep track of confirmation modal
+   const [confirmationModal, setConfirmationModal] = useState(null);
 
-  if (profileLoading || authLoading) {
-    return (
-      <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r-[1px] border-r-white bg-white">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
+   if (profileLoading || authLoading) {
+      return (
+         <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r-[1px] border-r-white bg-white">
+            <div className="spinner"></div>
+         </div>
+      );
+   }
 
-  // Logout function
-  const handleLogout = () => {
-    dispatch(logout(navigate.push));
-    setConfirmationModal(null);
-  };
+   // Logout function
+   const handleLogout = () => {
+      dispatch(logout(navigate.push));
+      setConfirmationModal(null);
+   };
 
-  return (
-    <div className="">
-      
-      <div className="w-full absolute ">
-     
-      </div>
-      <div className="flex h-screen min-w-[220px] flex-col border-r-[1px] rounded-xl border-r-pink-25 bg-yellow-5 py-10">
-        <div className="flex flex-col  mt-9">
-          <div  className="flex flex-col justify-center">
-          
-        <SidebarLink
-            link={{ name: "profile", path: "profile" }}
-            iconName="VscAccount"
-          />
-          {sidebarLinks.map((link) => (
-            ( user?.accountType === "admin") && <SidebarLink key={link.id} link={link} iconName={link.icon} />
-            
-          ))}
-          </div>
-        </div>
-        <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />
-        <div className="flex flex-col">
-          <SidebarLink
-            link={{ name: "Settings", path: "/dashboard/settings" }}
-            iconName="VscSettingsGear"
-          />
-          <button
-            onClick={() =>
-              console.log("hello")
-            }
-            className="pl-16 absolute py-10 text-sm font-medium text-richblack-300"
-          >
-            <div className="flex items-center gap-x-2" onClick={handleLogout}>
-              <VscSignOut className="text-lg" />
-              <span>Logout</span>
+   return (
+      <div className="">
+
+         <div className="w-full absolute ">
+
+         </div>
+         <div className="flex h-screen min-w-[220px] flex-col border-r-[1px] rounded-xl border-r-pink-25 bg-richblack-800 text-white py-10">
+            <div className="flex flex-col  mt-9">
+               <div className="flex flex-col justify-center">
+
+                  <SidebarLink
+                     link={{ name: "profile", path: "profile" }}
+                     iconName="VscAccount"
+                  />
+                  <SidebarLink
+                     link={{ name: "Track Order", path: "track" }}
+                     iconName="VscCompassDot"
+                  />
+                  <SidebarLink
+                     link={{ name: "History", path: "histroty" }}
+                     iconName="VscHistory"
+                  />
+
+
+                 
+                  {sidebarLinks.map((link) => (
+                     (user?.accountType === "admin" || user?.accountType === "restruntManager") && <SidebarLink key={link.id} link={link} iconName={link.icon} />
+
+                  ))}
+               </div>
             </div>
-          </button>
-        </div>
+            <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />
+            <div className="flex flex-col">
+               <SidebarLink
+                  link={{ name: "Settings", path: "/dashboard/settings" }}
+                  iconName="VscSettingsGear"
+               />
+               <button
+                  onClick={() =>
+                     console.log("hello")
+                  }
+                  className="pl-16 absolute py-10 text-sm font-medium text-richblack-300"
+               >
+                  <div className="flex items-center gap-x-2" onClick={handleLogout}>
+                     <VscSignOut className="text-lg" />
+                     <span>Logout</span>
+                  </div>
+               </button>
+            </div>
+         </div>
+
       </div>
-      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
-    </div>
-  );
-          }
+   );
+}

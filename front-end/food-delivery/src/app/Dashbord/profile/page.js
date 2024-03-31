@@ -10,7 +10,9 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.profile);
   const token = useSelector((state) => state?.auth.token);
-
+   // Define state for currentRating
+   const [currentRating, setCurrentRating] = useState(null);
+   const [isClient, setIsClient] = useState(false)
   const [userName, setUserName] = useState(user?.firstName + " " + user?.lastName);
   const [image, setImage] = useState("");
   const [saved, setSaved] = useState(false);
@@ -43,6 +45,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     setImage(user?.profile?.image);
+    setIsClient(true)
   }, [user?.image]);
 
   const handleProfileInfoUpdate = async (ev) => {
@@ -75,31 +78,50 @@ const ProfilePage = () => {
 
   return (
     <>
-     <section className="mt-12 pb-2 bg-gradient-to-br from-indigo-100 via-indigo-5 to-pink-25 to-emerald-500">
-   <div className="max-w-md mx-auto  mt-4">
+    {isClient &&
+      <section className=" pb-2 pt-20 mt-15 ">
+        <div className="max-w-xl   mx-auto  shadow-xl p-6">
           <div className="flex gap-4 w-32">
-            <form className="flex flex-col justify-between mt-2" onSubmit={handleProfileInfoUpdate}>
+            <form className="flex flex-col font-poppins justify-between mt-2" onSubmit={handleProfileInfoUpdate}>
               <img
-                className="rounded-full w-16 mx-auto mb-1"
+                className="rounded-full w-16 mx-auto mb-5"
                 src={image}
                 width={20}
                 height={25}
                 alt="avatar"
               />
+              <div className="sm:flex gap-3">
+              <div className="relative mb-2">
+                <label htmlFor="userName" className="">
+                  Name:
+                </label><br></br>
+                <input
+                  id="userName"
+                  className="rounded-lg border border-gray-300  p-2 pl-8"
+                  type="text"
+                  placeholder="First and last name"
+                  value={userName}
+                  onChange={(ev) => setUserName(ev.target.value)}
+                />
+              </div>
+              <div className="relative mb-2">
+                <label htmlFor="userName" className="">
+                  Email:
+                </label><br></br>
               <input
-                className="rounded-lg border border-gray-300 p-2 mb-2"
-                type="text"
-                placeholder="First and last name"
-                value={userName}
-                onChange={(ev) => setUserName(ev.target.value)}
-              />
-              <input
-                className="rounded-lg border border-gray-300 p-2 mb-2"
+                 className="rounded-lg border border-gray-300  p-2 pl-8"
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(ev) => setEmail(ev.target.value)}
               />
+              </div>
+              </div>
+
+              <div className="relative mb-2 mx-auto">
+                <label htmlFor="userName" className="">
+                  Mobile:
+                </label><br></br>
               <input
                 className="rounded-lg border border-gray-300 p-2 mb-2"
                 type="tel"
@@ -107,14 +129,21 @@ const ProfilePage = () => {
                 value={mobileNo}
                 onChange={(ev) => setMobileNo(ev.target.value)}
               />
+              </div>
+              <div className="relative mb-2 ">
+                <label htmlFor="address" className="">
+                  Addresh:
+                </label><br></br>
               <input
-                className="rounded-lg border border-gray-300 p-2 mb-2"
+                className="rounded-lg border border-gray-300 p-2 mb-2 w-full"
+                id="address"
                 type="text"
                 placeholder="Street address"
                 value={streetAddress}
                 onChange={(ev) => setStreetAddress(ev.target.value)}
               />
-              <div className="flex gap-4">
+              </div>
+              <div className="flex gap-4 justify-between">
                 <input
                   className="rounded-lg border border-gray-300 p-2 mb-2"
                   type="text"
@@ -130,13 +159,7 @@ const ProfilePage = () => {
                   onChange={(ev) => setCity(ev.target.value)}
                 />
               </div>
-              <input
-                className="rounded-lg border border-gray-300 p-2 mb-2"
-                type="text"
-                placeholder="Country"
-                value={country}
-                onChange={(ev) => setCountry(ev.target.value)}
-              />
+              
               {isEdit ? (
                 <div className="flex justify-between">
                   <button className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full mr-5" type="submit">
@@ -147,7 +170,7 @@ const ProfilePage = () => {
                   </button>
                 </div>
               ) : (
-                <button className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg" type="button" onClick={() => setIsEdit(true)}>
+                <button className="bg-richblack-800 text-white px-4 py-2 w-full rounded-lg" type="button" onClick={() => setIsEdit(true)}>
                   Edit
                 </button>
               )}
@@ -155,19 +178,16 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        <div className=" mb-6  bg-gradient-to-r from-indigo-25 from-10% via-30% to-emerald-500 to-90%">
-          <h2 className="text-2xl font-semibold mb-2">Rating Reviews</h2>
+        <div className=" mb-6  ">
+          <h2 className="text-2xl font-semibold font-poppins mt-5 ml-5 mb-2">Rating Reviews</h2>
           <div className="flex flex-wrap">
             {ratingReviews.map((ratingData, index) => (
-              <RatingCard key={index} ratingData={ratingData} />
-              ))}
+              <RatingCard key={index} ratingData={ratingData} currentRating={currentRating} setCurrentRating={setCurrentRating} />
+            ))}
           </div>
         </div>
-              </section>
-
-
-
-      <Footer />
+      </section>
+}
     </>
   );
 };

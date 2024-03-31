@@ -18,11 +18,11 @@ export default function SidebarLink({ link, iconName }) {
       href={link.path}
      
     >
-      <div className="flex items-center gap-x-2 hover:bg-yellow-600 p-2">
+      <div className="flex items-center gap-x-2 hover:bg-yellow-600 p-2 font-poppins ">
       <span className="w-5"></span>
         {/* Icon Goes Here */}
         <Icon className="text-lg" />
-        <span>{link.name}</span>
+        <span >{link.name}</span>
       </div>
     </Link>
   )

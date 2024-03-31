@@ -23,7 +23,7 @@ export async function mobileOtpSend(phoneNumber) {
 }
 
 export async function  verifyOtp (phoneNumber, otpCode) {
-  console.log("helloo")
+  console.log("helloo verifying : ",phoneNumber,otpCode)
   const res=await client.verify.v2.services(verifySid)
   .verificationChecks.create({ to: phoneNumber, code: otpCode})
 

@@ -16,6 +16,7 @@ const restaurantSchema = new mongoose.Schema({
   restaurantOpeningTime: { type:Date},
   restaurantClosingTime: { type:Date},
   contactNumber: { type: String, required: true },
+  orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SubsectionOrder' }],
   RatingReviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'RestaurantRatingReviews'}],
   // isPromo: { type: Boolean, default: false },
 });

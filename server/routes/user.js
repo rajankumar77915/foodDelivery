@@ -9,6 +9,7 @@ import {
 } from "../controller/ResetPassword.js";
 
 import  {auth}  from "../middlewares/auth.js";
+import { addRatingReview, getRatingReview } from "../controller/RatingReview.js";
 
 
 
@@ -40,6 +41,10 @@ router.post("/reset-password-token", resetPasswordToken)
 router.post("/reset-password", resetPassword)
 
 
-
+// ********************************************************************************************************
+//                                      Rting&Review 
+// ********************************************************************************************************
+router.post("/add-rating-review",auth,addRatingReview);
+router.get("/get-rating-review",auth,getRatingReview);
 // Export the router for use in the main application
 export default router;

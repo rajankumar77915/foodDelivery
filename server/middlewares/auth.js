@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import User from "../models/User.js";
+import User from "../models/User.js"
+
 
 dotenv.config();
 
@@ -25,8 +26,15 @@ export const auth = async (req, res, next) => {
         //verify the token
         try{
             const decode =  jwt.verify(token, process.env.JWT_SECRET);
-            console.log("token decode:",decode);    
-            req.user = decode;
+            console.log("token decode:",decode);  
+            const user = await User.findById(decode.id);
+            if(!user) {
+                return res.status(401).json({
+                    success:false,
+                    message:'User not found',
+                });
+            }
+            req.user = user;
         }
         catch(err) {
             //verification - issue
@@ -48,7 +56,7 @@ export const auth = async (req, res, next) => {
 //isCustomer
 export const isCustomer = async (req, res, next) => {
  try{
-        if(req.user.accountType !== "customer") {
+        if(req.user.accountType !== "restruntManager") {
             return res.status(401).json({
                 success:false,
                 message:'This is a protected route for customer only',
@@ -68,7 +76,8 @@ export const isCustomer = async (req, res, next) => {
 //isDeliveryBoy
 export const isDeliveryBoy = async (req, res, next) => {
     try{
-           if(req.user.accountType !== "deliveryBoy") {
+           if(req.user.accountType !== "restruntManager") {
+            //    req.user=await User.findById(req.user.id).populate('restaurantId');
                return res.status(401).json({
                    success:false,
                    message:'This is a protected route for deliveryBoy only',
@@ -92,6 +101,25 @@ export const isAdmin = async (req, res, next) => {
                return res.status(401).json({
                    success:false,
                    message:'This is a protected route for Admin only',
+                   data:req.user
+               });
+           }
+           next();
+    }
+    catch(error) {
+       return res.status(500).json({
+           success:false,
+           message:'User role cannot be verified, please try again'
+       })
+    }
+   }
+//isAdmin
+export const isRestruntManager = async (req, res, next) => {
+    try{
+           if(req.user.accountType !== "restruntManager") {
+               return res.status(401).json({
+                   success:false,
+                   message:'This is a protected route for  restruntManager only',
                    data:req.user
                });
            }

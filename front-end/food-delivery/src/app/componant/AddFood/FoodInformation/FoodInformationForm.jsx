@@ -164,18 +164,18 @@ export default function FoodInformationForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-8 rounded-md border-[1px]  bg-richblack-400 p-6"
+      className="space-y-8 rounded-md   shadow-xl p-6"
     >
       {/* Food Title */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="foodTitle">
+        <label className="text-sm text-richblack-800" htmlFor="foodTitle">
           Food Title <sup className="text-pink-200">*</sup>
         </label>
         <input
           id="foodTitle"
           placeholder="Enter Food Title"
           {...register("foodTitle", { required: true })}
-          className="form-style w-full"
+          className="form-style w-full py-2 border-solid border-2 border-richblack-300 rounded px-4   "
         />
         {errors.foodTitle && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -185,14 +185,14 @@ export default function FoodInformationForm() {
       </div>
       {/* Food Short Description */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="foodShortDesc">
+        <label className="text-sm text-richblack-800" htmlFor="foodShortDesc">
           Food iteam Short Description <sup className="text-pink-200">*</sup>
         </label>
         <textarea
           id="foodShortDesc"
           placeholder="Enter Description"
           {...register("foodShortDesc", { required: true })}
-          className="form-style resize-x-none min-h-[130px] w-full"
+          className="form-style w-full py-2 border-solid border-2 border-richblack-300 rounded px-4 "
         />
         {errors.foodShortDesc && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -202,12 +202,14 @@ export default function FoodInformationForm() {
       </div>
       {/* Food Price */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="foodPrice">
+        <label className="text-sm text-richblack-800" htmlFor="foodPrice">
           Food Price <sup className="text-pink-200">*</sup>
         </label>
         <div className="relative">
           <input
             id="foodPrice"
+            type="number"
+            min={0}
             placeholder="Enter Food Price"
             {...register("foodPrice", {
               required: true,
@@ -216,7 +218,7 @@ export default function FoodInformationForm() {
                 value: /^(0|[1-9]\d*)(\.\d+)?$/,
               },
             })}
-            className="form-style w-full !pl-12"
+            className="form-style w-full py-2 border-solid border-2 border-richblack-300 rounded px-4 !pl-12"
           />
           <HiOutlineCurrencyRupee className="absolute left-3 top-1/2 inline-block -translate-y-1/2 text-2xl text-richblack-400" />
         </div>
@@ -228,7 +230,7 @@ export default function FoodInformationForm() {
       </div>
       {/* Food Category */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="foodCategory">
+        <label className="text-sm text-richblack-800" htmlFor="foodCategory">
           Food Category <sup className="text-pink-200">*</sup>
         </label>
         <select
@@ -274,7 +276,7 @@ export default function FoodInformationForm() {
       />
       {/* isveg */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="isVeg">
+        <label className="text-sm text-richblack-800" htmlFor="isVeg">
           Food isVeg <sup className="text-pink-200">*</sup>
         </label>
         <select

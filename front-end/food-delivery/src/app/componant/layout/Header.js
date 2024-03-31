@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaCartPlus } from "react-icons/fa6";
+import { FaCartPlus, FaBars, FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../services/functions/logout";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { IoFastFood } from "react-icons/io5";
 
 function AuthLinks({ status, image }) {
   const dispatch = useDispatch();
@@ -25,10 +26,10 @@ function AuthLinks({ status, image }) {
   } else if (status === "unauthenticated") {
     return (
       <>
-        <Link className="p-2" href={"/login"}>
+        <Link className="p-2 font-semibold transition duration-300 hover:text-pink-5" href={"/login"}>
           Login
         </Link>
-        <Link href={"/register"} className="bg-red-400 rounded-full text-white px-7 py-1">
+        <Link href={"/register"} className=" rounded-full font-semibold py-1 transition duration-300 hover:text-pink-5">
           Register
         </Link>
       </>
@@ -44,33 +45,54 @@ const Header = () => {
   }
 
   const [search, setSearch] = useState("");
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
   async function fetchSearched(e) {
     setSearch(e.target.value);
   }
+
   useEffect(() => {
     console.log("search", search);
   }, [search]);
 
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
   return (
-    <div className="bg-richblack-5">
-      <header className="bg-richblack-5 h-full w-3/4 mx-auto flex items-center justify-between">
-        <Link className=" font-semibold text-2xl ml-11" href="">
-          BiteBlitz
+    <div className="bg-richblack-800 py-2 text-white font-poppins">
+      <header className={`h-full   mx-auto flex items-center  justify-between `}>
+        
+        
+
+        <div className="md:hidden">
+          {isNavOpen ? (
+            <FaTimes className="text-3xl mr-4" onClick={toggleNav} />
+          ) : (
+            <FaBars className="text-3xl mr-4" onClick={toggleNav} />
+          )}
+        </div>
+        <Link className=" font-semibold font-poppins text-2xl px-4 flex gap-3" href="">
+         <span className="ml-5"><IoFastFood/></span> BiteBlitz
         </Link>
 
-        <div className="flex justify-between">
-          <nav className="flex items-center gap-6 text-xl font-inter">
-            <Link className="transition duration-300 hover:bg-pink-25 p-1 rounded-3xl" href={"/"}>Home</Link>
-            <Link className="transition duration-300 hover:bg-pink-25 p-1 rounded-3xl"  href={"/about"}>About</Link>
-            <Link className="transition duration-300 hover:bg-pink-25 p-1 rounded-3xl"  href={"Dashbord/profile"}>Profile</Link>
+        <div className={`md:flex  items-center gap-6 text-xl font-inter ${isNavOpen ? "block" : "hidden"}`}>
+        
+          <nav className="flex flex-col md:flex-row items-center gap-6 text-xl font-inter">
+            {/* <Link className="transition duration-300 hover:bg-white hover:text-black p-2 rounded-2xl" href={"/"}>Home</Link>
+            <Link className="transition duration-300 hover:bg-white hover:text-black  p-2 rounded-2xl" href={"/about"}>About</Link>
+            <Link className="transition duration-300 hover:bg-white  hover:text-black  p-2 rounded-2xl" href={"Dashbord/profile"}>Profile</Link> */}
           </nav>
         </div>
-        <nav className="flex items-center gap-6 text-pink-700 font-normal text-2xl mr-11 mt-1">
-          <AuthLinks status={user?.firstName ? "authenticated" : "unauthenticated"} image={image} />
-          <Link href={"/cart"} className="transition duration-300 hover:bg-pink-25 rounded-full p-2">
-            <FaCartPlus />
-          </Link>
-        </nav>
+          <nav className={`flex items-center  gap-6 text-white font-normal text-2xl mr-11 mt-1  ${isNavOpen&& "hidden"}`}>
+          <Link className="transition duration-300 hover:bg-white hover:text-black p-2 rounded-2xl" href={"/"}>Home</Link>
+            <Link className="transition duration-300 hover:bg-white hover:text-black  p-2 rounded-2xl" href={"/about"}>About</Link>
+            
+            <AuthLinks status={user?.firstName ? "authenticated" : "unauthenticated"} image={image} />
+            <Link href={"/cart"} className={`bg-pink-25 transition duration-300 hover:bg-pink-5 rounded-full p-2`}>
+              <FaCartPlus />
+            </Link>
+          </nav>
       </header>
     </div>
   );

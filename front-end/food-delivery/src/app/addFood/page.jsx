@@ -1,13 +1,21 @@
 "use client"
+import { use, useEffect, useState } from "react";
 import RenderSteps from "../componant/AddFood/RenderSteps"
-
+import { MdFastfood } from "react-icons/md";
 export default function AddCourse() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  })
   return (
-    <div className="bg-gradient-to-r from-fuchsia-300 to-fuchsia-5">
+    <>
+    {isClient && 
+    <div className="">
       <div className="flex w-11/12 mx-auto items-start gap-x-6  p-3">
         <div className="flex flex-1 flex-col">
-          <h1 className="mb-14 text-3xl font-medium text-richblack-5">
-            Add Food
+          <h1 className="mb-14 text-3xl font-medium text-richblack-800">
+         <div className="flex gap-3"> <MdFastfood />  Add Food</div>
           </h1>
           <div className="flex-1">
             <RenderSteps />
@@ -25,5 +33,7 @@ export default function AddCourse() {
         </div>
       </div>
     </div>
+  }
+  </>
   )
 }

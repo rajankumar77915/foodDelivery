@@ -147,6 +147,27 @@ export const getRestaurant = async (req, res) => {
     });
   }
 };
+export const getMangerRestaurant = async (req, res) => {
+  try {
+    // const  user = req.user;
+    const id  = req.user.restaurantId;
+
+
+    const restaurant = await Restaurant.findById(id).populate("orders").populate("menu");
+
+    if (!restaurant) {
+      return res.status(404).json({ error: "No restaurant found!" });
+    }
+
+    res.status(200).json(restaurant);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      error: `Error fetching restaurant: ${error.message}`,
+    });
+  }
+};
 
 export const getDishes = async (req, res) => {
   try {

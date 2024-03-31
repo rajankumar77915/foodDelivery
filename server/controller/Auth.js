@@ -23,10 +23,10 @@ export const signup = async (req, res) => {
 			otp,
 			restaurantId,
 			accountType
-		} = req.body;
-		let {mobileNo}=req.body
+		} = req.body.formData;
+		let {mobileNo}=req.body.formData
 		mobileNo="+"+mobileNo
-		console.log(req.body)
+		console.log(req.body.formData)
 		// Check if All Details are there or not
 		if (
 			!firstName ||

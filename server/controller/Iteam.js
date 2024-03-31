@@ -2,6 +2,7 @@ import Item from '../models/Item.js';
 import Category from '../models/Category.js';
 import { uploadImageCloudinary } from '../utils/uploadImageCloudinary.js';
 import RatingReview from '../models/ratingReview.js';
+import Restaurant from '../models/Restaurant.js';
 
 // Create a new item
 export const createItem = async (req, res) => {
@@ -30,7 +31,7 @@ export const createItem = async (req, res) => {
         image,
         process.env.FOLDER_NAME
     );
-    console.log(filelImage)
+    
     //create Iteam/dish
     try {
         const newItem = new Item({
@@ -54,7 +55,11 @@ export const createItem = async (req, res) => {
                 message: "Item not created",
             });
         }
-
+        
+        //add that item in restaurant
+        const userRestrunt  = await Restaurant.findById(req.user.restaurantId);
+        userRestrunt.menu.push(savedItem._id);
+        await userRestrunt.save();
         return res.status(200).json({
             data: savedItem,
             success: true,

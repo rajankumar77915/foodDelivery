@@ -1,4 +1,4 @@
-'use client';
+
 import { useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
 import Header from "./Header";

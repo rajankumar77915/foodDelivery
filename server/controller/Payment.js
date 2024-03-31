@@ -7,6 +7,7 @@ import User from '../models/User.js';
 import crypto from 'crypto';
 import SubsectionOrder from "../models/SubsectionOrder.js";
 import Payment from "../models/Payment.js";
+import Restaurant from "../models/Restaurant.js";
 //initiate the razorpay order
 export const capturePayment = async(req, res) => {
     console.log("------------------------------------------- sucess cap")
@@ -42,6 +43,10 @@ export const capturePayment = async(req, res) => {
             //create subsection order
             const subse=await SubsectionOrder.create({item:items_id._id,qunitity:items_id._quantity})
             newOrder.SubsectionOrder.push(subse._id);
+            const restrunt=await Restaurant.findById(item.restaurantId);
+          
+            restrunt.orders.push(subse._id)
+            await restrunt.save()
            await newOrder.save()
 
             totalAmount += (item.price*items_id.quantity);

@@ -34,7 +34,7 @@ export default function RenderSteps() {
               <button
                 className={`grid cursor-default aspect-square w-[34px] place-items-center rounded-full border-[1px] ${
                   step === item.id
-                    ? "border-yellow-50 bg-gradient-to-r from-fuchsia-100 to-richblack-900 text-yellow-50"
+                    ? " bg-gradient-to-r from-white to-richblack-900 text-white"
                     : "border-richblack-700 bg-richblack-800 text-richblack-300"
                 } ${step > item.id && "bg-yellow-50 text-yellow-50"}} `}
               >
@@ -69,7 +69,7 @@ export default function RenderSteps() {
               
               <p
                 className={`text-sm ${
-                  step >= item.id ? "text-richblack-5" : "text-richblack-500"
+                  step >= item.id ? "text-black text-xl" : "text-richblack-700 text-xl"
                 }`}
               >
                 {item.title}
