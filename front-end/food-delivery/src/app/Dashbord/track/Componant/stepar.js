@@ -1,14 +1,14 @@
-'use client'
+"use client"
 import { useEffect, useRef, useState } from "react";
 import { TiTick } from "react-icons/ti";
 
 const Stepper = ({ currentStatus}) => {
   const steps = [
-    'pending_orderReq',
-    'preparing',
-    'in progress',
-    'delivered',
-    'confirmed',
+    "pending_orderReq",
+    "preparing",
+    "in progress",
+    "delivered",
+    "confirmed",
   ];
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Stepper = ({ currentStatus}) => {
   }, []);
   const handleCancel = () => {
     // Handle cancellation logic here
-    // For demonstration, let's reset to the canceled step
+    // For demonstration, let"s reset to the canceled step
     setCurrentStep(6);
     setComplete(false);
     setIsCanceled(true);
@@ -39,7 +39,7 @@ const Stepper = ({ currentStatus}) => {
 
   const handleGetHelp = () => {
     // Handle getting help logic here
-    // For demonstration, let's alert a message
+    // For demonstration, let"s alert a message
     alert("Help is on the way!");
   };
 

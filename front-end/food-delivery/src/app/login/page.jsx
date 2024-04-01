@@ -1,17 +1,17 @@
-'use client'
+"use client"
 import { IoCloseSharp } from "react-icons/io5";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { setCookie } from "cookies-next";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux";
-import { login } from '../../services/functions/login'
-import IconBtn from '../componant/IconBtn'
+import { login } from "../../services/functions/login"
+import IconBtn from "../componant/IconBtn"
 import { FaGoogle } from "react-icons/fa";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loginInProgress, setLoginInProgress] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export default function Login() {
     try {
       dispatch(login(email, password, router.push));
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error("Error during login:", error);
     }
     setLoginInProgress(false);
   };

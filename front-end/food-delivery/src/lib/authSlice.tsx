@@ -2,16 +2,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    token:typeof window === 'object'
+    token:typeof window === "object"
     ? localStorage?.getItem("token")?.replace(/"/g, "")
     : null,
-    // token:getCookie('token'),
+    // token:getCookie("token"),
     signupData:null,
     loading:false,
   };
 
   export const authSlice=createSlice({
-    name:'auth',
+    name:"auth",
     initialState:initialState,
     reducers:{
         Settoken(state,value){

@@ -1,8 +1,8 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import 'swiper/css';
-import 'swiper/swiper-bundle.css';
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
+import "swiper/css";
+import "swiper/swiper-bundle.css";
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules";
 const Hero = ({ swiperFood = "" }) => {
   // Dummy swiperFood array with sample data
   const dummySwiperFood = [
@@ -31,7 +31,7 @@ const Hero = ({ swiperFood = "" }) => {
         pagination={{ clickable: true }}
 
         onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log('slide change')}
+        onSlideChange={() => console.log("slide change")}
         autoplay={{ delay: 3000 }}
         className="min-h-full"
       >

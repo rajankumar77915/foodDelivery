@@ -1,7 +1,7 @@
 import Item from '../models/Item.js'; 
 import Category from '../models/Category.js';
 import { uploadImageCloudinary } from '../utils/uploadImageCloudinary.js';
-import RatingReview from '../models/ratingReview.js';
+import RatingReview from '../models/RatingReview.js';
 import Restaurant from '../models/Restaurant.js';
 
 // Create a new item

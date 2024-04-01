@@ -1,7 +1,7 @@
 "use client";
 
 import Dashboard from "../componant/layout/Dashbord";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export default function RootLayout({
   children,
@@ -16,7 +16,7 @@ export default function RootLayout({
 
   return (
     <body>
-      {isClient && <Dashboard children={children}/>}
+      {isClient && <Dashboard>{children}</Dashboard>}
     </body>
   )
 }

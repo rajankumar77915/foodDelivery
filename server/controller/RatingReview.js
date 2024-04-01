@@ -1,6 +1,6 @@
 import Item from "../models/Item.js";
 import Restaurant from "../models/Restaurant.js";
-import RatingReview from "../models/ratingReview.js";
+import RatingReview from "../models/RatingReview.js";
 
 export const addRatingReview = async (req, res) => {
     try {

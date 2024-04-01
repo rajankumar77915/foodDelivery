@@ -1,12 +1,12 @@
-'use client'
-import { useEffect, useState } from 'react';
-import RatingStars from '../componant/RatingStars';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../lib/cartSlice'
-import toast from 'react-hot-toast';
-import MenuItem from '../componant/menu/MenuItem';
-import RatingCard from '../componant/RatingCard';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+"use client"
+import { useEffect, useState } from "react";
+import RatingStars from "../componant/RatingStars";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../lib/cartSlice"
+import toast from "react-hot-toast";
+import MenuItem from "../componant/menu/MenuItem";
+import RatingCard from "../componant/RatingCard";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function ParticularFood() {
     const dispatch = useDispatch()
@@ -36,7 +36,7 @@ function ParticularFood() {
         { id: 2, rating: 5, comment: "Amazing taste, will order again! Amazing taste, will order again! Amazing taste, will order again! Amazing taste, will order again!" },
         { id: 3, rating: 3, comment: "Decent food, but could be better." },
         { id: 4, rating: 4.5, comment: "Delicious! Highly recommended." },
-        { id: 5, rating: 5, comment: "Best food I've ever had!" }
+        { id: 5, rating: 5, comment: "Best food I  ever had!" }
     ];
 
     const [ratingReviews] = useState([
@@ -124,7 +124,7 @@ function ParticularFood() {
                                 <h1 className="text-3xl font-bold">{foodData?.myResult?.data?.itemName}</h1>
                                 <p className="mt-4">{foodData?.myResult?.data?.description}</p>
                                 <br></br>
-                                <h1 className='text-3xl border-t-2'>customize</h1>
+                                <h1 className="text-3xl border-t-2">customize</h1>
                                 <div className="customize mt-1">
                                     {varityData?.map((varity, index) => (
                                         <label key={index} className="inline-flex items-center mr-4">
@@ -167,7 +167,7 @@ function ParticularFood() {
                             </div>
                         </div>
                     </div>
-                    <h1 className='text-3xl mx-3 mt-5'>Releated Items</h1>
+                    <h1 className="text-3xl mx-3 mt-5">Releated Items</h1>
                     <div className="mr-2 ml-2 m-4 gap-5 flex flex-wrap justify-around pl-32 pr-32">
                         {
                             relatedData?.map(item => (

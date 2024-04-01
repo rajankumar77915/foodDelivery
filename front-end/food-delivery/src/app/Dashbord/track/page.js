@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { use, useEffect, useRef, useState } from "react";
 import { TiTick } from "react-icons/ti";
 import Stepper from "./Componant/stepar.js"
