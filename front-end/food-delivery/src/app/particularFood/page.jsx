@@ -17,8 +17,9 @@ function ParticularFood() {
     console.log("foodData:", foodData?.myResult)
     const relatedData = foodData?.myResult?.relatedData;
     let varityData;
-    if (foodData)
-        varityData = JSON?.parse(foodData?.myResult?.data?.foodVarity[0]);
+    if (foodData && foodData.myResult?.data?.foodVarity[0]) {
+        varityData = JSON.parse(foodData.myResult.data.foodVarity[0]);
+    }
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
@@ -41,43 +42,43 @@ function ParticularFood() {
 
     const [ratingReviews] = useState([
         {
-            restaurantName: "Restaurant A",
+            restaurantName: "hiren patel",
             foodName: "Food X",
             rating: 4.5,
             review: "Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it!Great food, loved it! Great food, loved it! Great food, loved it! Great food, loved it!"
         },
         {
-            restaurantName: "Restaurant B",
+            restaurantName: "lamita",
             foodName: "Food Y",
             rating: 3.8,
             review: "Nice experience, but could be better."
         },
         {
-            restaurantName: "Restaurant B",
+            restaurantName: "kesh",
             foodName: "Food Y",
             rating: 3.8,
             review: "Nice experience, but could be better."
         },
         {
-            restaurantName: "Restaurant B",
+            restaurantName: "gati",
             foodName: "Food Y",
             rating: 3.8,
             review: "Nice experience, but could be better."
         },
         {
-            restaurantName: "Restaurant B",
+            restaurantName: "sunik sharma",
             foodName: "Food Y",
             rating: 3.8,
             review: "Nice experience, but could be better."
         },
         {
-            restaurantName: "Restaurant B",
+            restaurantName: "gunjan patel",
             foodName: "Food Y",
             rating: 3.8,
             review: "Nice experience, but could be better."
         },
         {
-            restaurantName: "Restaurant B",
+            restaurantName: "varma",
             foodName: "Food Y",
             rating: 3.8,
             review: "Nice experience, but could be better."
@@ -143,7 +144,7 @@ function ParticularFood() {
                                     Add to Cart
                                 </button>
                                 <br />
-                  
+
 
                             </div>
                         </div>

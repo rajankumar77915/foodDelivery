@@ -4,7 +4,6 @@ import Image from "next/image";
 import { MdExpandMore, MdOutlineModeEditOutline } from "react-icons/md";
 import { apiConnector } from "@/services/apiconnector";
 import { useSelector } from "react-redux";
-import { toast } from "react-hot-toast"
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [isClient, setIsClient] = useState(false)
@@ -18,7 +17,6 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        toast.success("food removed from cart")
         const response = await apiConnector(
           "GET",
           "http://localhost:4000/api/v1/order/findAllorderForuser",
@@ -29,10 +27,8 @@ const OrdersPage = () => {
         );
         console.log("my res:", response.data)
         setOrders(response.data);
-        // toast.dismiss(toastId)
         setIsClient(true)
       } catch (error) {
-        toast.error("something went wrong")
         console.error("Error fetching orders:", error);
       }
     };
@@ -168,8 +164,8 @@ const OrdersPage = () => {
                   <td className="py-2 px-4 text-center">
                     {new Date(order.orderDate).toLocaleDateString()}
                   </td>
-                  <td className="py-2 px-4 text-center">{subOrder.item.price}</td>
-                  <td className="hidden md:table-cell py-2 px-4">{subOrder.item.itemName}</td>
+                  <td className="py-2 px-4 text-center">{subOrder?.item?.price}</td>
+                  <td className="hidden md:table-cell py-2 px-4">{subOrder?.item?.itemName}</td>
                   <td className="py-2 px-4 text-center">
                     {order.isEdit ? (
                       <select

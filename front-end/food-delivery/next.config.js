@@ -9,7 +9,9 @@ const nextConfig = {
           'pixabay.com',
           'res.cloudinary.com',
           'api.dicebear.com',
-          'https://api.dicebear.com'
+          'https://api.dicebear.com',
+          'media-assets.swiggy.com',
+          'https://media-assets.swiggy.com',
       ],
   },
   domains: ["pixabay.com"],

@@ -8,11 +8,12 @@ import { logout } from "../../../services/functions/logout";
 // import Header from "./layout/Header";
 // import ConfirmationModal from "../ConfirmationModal";
 
-// Dummy sidebar links
-const sidebarLinks = [
+
+const MangerLinks = [
    { id: 1, name: "DashBord", path: "analysis", icon: "VscGraphLine" },
-   { id: 2, name: "current Orders", path: "order", icon: "VscLibrary" },
-   { id: 3, name: "Add Menu", path: "/addFood", icon: "VscAdd" },
+   { id: 2, name: "Add Menu", path: "/addFood", icon: "VscAdd" },
+   { id: 3, name: "current Orders", path: "order", icon: "VscLibrary" },
+   // { id: 3, name: "Add Menu", path: "/addRestrunt", icon: "VscAdd" },
 ];
 
 export default function Sidebar() {
@@ -53,10 +54,13 @@ export default function Sidebar() {
                      link={{ name: "profile", path: "profile" }}
                      iconName="VscAccount"
                   />
+                  {
+                     
                   <SidebarLink
                      link={{ name: "Track Order", path: "track" }}
                      iconName="VscCompassDot"
                   />
+                  }
                   <SidebarLink
                      link={{ name: "History", path: "histroty" }}
                      iconName="VscHistory"
@@ -64,10 +68,12 @@ export default function Sidebar() {
 
 
                  
-                  {sidebarLinks.map((link) => (
+                  {user?.restaurantId && MangerLinks.map((link) => (
                      (user?.accountType === "admin" || user?.accountType === "restruntManager") && <SidebarLink key={link.id} link={link} iconName={link.icon} />
 
                   ))}
+                  {(user?.accountType === "admin" || user?.accountType === "restruntManager")  && !user?.restaurantId && <SidebarLink link={{ name: "Add Restrunt", path: "addRestrunt" }} iconName="VscAdd" />}
+                  {user?.accountType === "admin" &&  <SidebarLink link={{ name: "Approv Restrunts", path: "newRestruntReq" }} iconName="VscAdd" />}
                </div>
             </div>
             <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />

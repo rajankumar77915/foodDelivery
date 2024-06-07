@@ -1,19 +1,20 @@
 'use client'
+import { apiConnector } from "@/services/apiconnector";
 import { useEffect, useRef, useState } from "react";
 import { TiTick } from "react-icons/ti";
 
-const Stepper = ({ currentStatus}) => {
+const Stepper = ({ currentStatus,currentSubsectionId,orderId,token}) => {
   const steps = [
     'pending_orderReq',
     'preparing',
     'in progress',
     'delivered',
-    'confirmed',
   ];
 
   useEffect(() => {
     setCurrentStep(steps.indexOf(currentStatus) + 1);
-    console.log("ncjnjnjnfjnfjnfjfn")
+    console.log("currentStatus",currentSubsectionId)
+    console.log("currentStatus orderId :",orderId)
   }, [currentStatus]);
 
   // Find the index of the currentStatus in steps array
@@ -30,9 +31,9 @@ const Stepper = ({ currentStatus}) => {
     }
   }, []);
   const handleCancel = () => {
-    // Handle cancellation logic here
-    // For demonstration, let's reset to the canceled step
-    setCurrentStep(6);
+
+    apiConnector("PUT", `http://localhost:4000/api/v1/order/changeOrderStatus/${orderId}/${currentSubsectionId}`, { orderStatus: "canceled" },  {Authorization: `Bearer ${token}`})
+    setCurrentStep(5);
     setComplete(false);
     setIsCanceled(true);
   };
@@ -44,8 +45,16 @@ const Stepper = ({ currentStatus}) => {
   };
 
   return (
-    <div className="flex justify-end w-[50%] mx-auto items-center rounded-xl bg-black mt-20">
-      <div className="flex flex-col justify-between items-center mt-32 bg-black gap-3  px-32">
+    <div className="container mx-auto p-4 relative">
+      {/* Background video */}
+      <div className="video-background absolute inset-0 z-0">
+      <video ref={videoRef} width={300} height={200} className="border border-none rounded-md w-full opacity-30" loop muted>
+          <source className="border border-none" src="/track2.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <div className="flex flex-col justify-between items-center mt-32 gap-3  px-32 relative z-10">
         {!isCanceled && steps?.map((step, i) => (
           <div
             key={i}
@@ -54,7 +63,7 @@ const Stepper = ({ currentStatus}) => {
             <div className="step w-10 h-10 flex items-center justify-center z-10 relative rounded-full font-semibold bg-pink-700 text-white">
               {i + 1 <= currentStep || complete ? <TiTick size={24} /> : i + 1}
             </div>
-            <p className={`text-gray-500 ${complete && "text-white bg-green-800"}`}>{step}</p>
+            <p className={`text-gray-900 font-poppins font-semibold ${complete && "text-white bg-green-800"}`}>{step}</p>
           </div>
         ))}
 
@@ -67,14 +76,9 @@ const Stepper = ({ currentStatus}) => {
         )}
         </div>
         {/* Order Canceled Message */}
-        {isCanceled && <p className="text-white"> order has been canceled</p>}
+        {isCanceled && <p className="text-placeholder-caribbeangreen-25"> order has been canceled</p>}
       </div>
-      <div className="w-10/12 border border-none p-0 mr-10 ">
-        <video ref={videoRef} width={300} height={200} className="border border-none rounded-md w-full" loop muted>
-          <source className="border border-none" src="/preparing.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
+
     </div>
   );
 };

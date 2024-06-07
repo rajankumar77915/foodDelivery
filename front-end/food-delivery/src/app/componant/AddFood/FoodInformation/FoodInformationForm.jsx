@@ -16,8 +16,11 @@ import IconBtn from "../../IconBtn"
 import Upload from "../Upload"
 import ChipInput from "./ChipInput"
 import RequirementsField from "./RequirementField"
+import { useRouter } from "next/navigation"
+
 
 export default function FoodInformationForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -31,8 +34,9 @@ export default function FoodInformationForm() {
   const { food, editFood } = useSelector((state) => state.food)
   const [loading, setLoading] = useState(false)
   const [foodCategories, setFoodCategories] = useState([])
-
+  const { user } = useSelector((state) => state.profile);
   useEffect(() => {
+    console.log(user)
     const getCategories = async () => {
       setLoading(true)
       const categories = await fetchFoodCategories()
@@ -91,7 +95,7 @@ export default function FoodInformationForm() {
         const currentValues = getValues()
         const formData = new FormData()
         // console.log(data)
-        formData.append("restaurant_id", "659f7465da09eb38b30d651e")
+        formData.append("restaurant_id", user?.restaurantId)
         formData.append("foodId", food._id)
         if (currentValues.foodTitle !== food.foodName) {
           formData.append("foodName", data.foodTitle)
@@ -129,7 +133,8 @@ export default function FoodInformationForm() {
         const result = await editFoodDetails(formData, token)
         setLoading(false)
         if (result) {
-          dispatch(setStep(2))
+          router.push('/profile');
+          // dispatch(setStep(2))
           dispatch(setFood(result))
         }
       } else {
@@ -139,7 +144,7 @@ export default function FoodInformationForm() {
     }
 
     const formData = new FormData()
-    formData.append("restaurant_id", "659f7465da09eb38b30d651e")
+    formData.append("restaurant_id", user?.restaurantId)
 
     formData.append("foodName", data.foodTitle)
     formData.append("foodDescription", data.foodShortDesc)
@@ -155,7 +160,7 @@ export default function FoodInformationForm() {
   
     const result = await addFoodDetails(formData, token)
     if (result) {
-      dispatch(setStep(2))
+      router.push('/Dashbord/profile');
       dispatch(setFood(result))
     }
     setLoading(false)

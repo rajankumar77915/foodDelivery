@@ -9,6 +9,7 @@ import {
   updateItemById,
   deleteItemById,
   addItemRatingReview,
+  getItemRatingReview,
 } from "../controller/Iteam.js";
 
 import { createCategory,getAllCategories,updateCategoryById } from "../controller/Category.js";
@@ -36,6 +37,7 @@ router.get("/getItemById/:id", getItemById);
 
 // Route for adding a rating and review to an item
 router.post("/addItemRatingReview/:id", auth, isCustomer,addItemRatingReview);
+router.get("/getItemRatingReview/:id",getItemRatingReview);
 
 
 // ********************************************************************************************************

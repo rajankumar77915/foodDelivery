@@ -16,9 +16,10 @@ const Restrunt = () => {
     const getCourseDataWithStats = async() => {
       setLoading(true);
       
+      console.log("omomomomomomomomom11")
       const RestruntApiData = await getRestruntData(token);
       // const result = await fetchRestruntCourses(token);
-
+      console.log("omomomomomomomomom1")
       setOrders(RestruntApiData?.orders);
       setMenu(RestruntApiData?.menu);
       
@@ -26,7 +27,7 @@ const Restrunt = () => {
       // Calculate total price for each order item
       const aggregatedData = {};
       RestruntApiData?.orders.forEach(order => {
-        const menuItem = RestruntApiData?.menu.find(item => item._id === order.item);
+        const menuItem = RestruntApiData?.menu.find(item => item?._id === order?.item);
         if (menuItem) {
           const totalprice = menuItem.price * order?.qunitity;
           if (aggregatedData[menuItem._id]) {

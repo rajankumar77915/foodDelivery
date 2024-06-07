@@ -4,34 +4,46 @@ import Restaurant from "../models/Restaurant.js";
 
 import Item from "../models/Item.js";
 import { uploadImageCloudinary } from "../utils/uploadImageCloudinary.js";
+import User from "../models/User.js";
 
 export const createRestaurant = async (req, res) => {
   const {
-    name,
-    address,
+    restaurantName,
     pincode,
-    menu,
-    popularDishes,
+    city,
+    state,
+    street,
     restaurantOpeningTime,
     restaurantClosingTime,
     contactNumber,
   } = req.body;
+ console.log(req.body.street)
+ console.log(req.body.formData)
 
-
+ const image=req.files.certificateImage;
+ const certificateImage = await uploadImageCloudinary(
+     image,
+     process.env.FOLDER_NAME
+ );
+ if(!certificateImage){
+  return res.status(400).json({ sucess:false,error: 'image could not uploded try again' });
+ }
   const newRestaurant = new Restaurant({
-    name,
-    address,
+    name:restaurantName,
+    address:{pincode:pincode,state:state,city:city,street:street},
     pincode,
-    menu,
-    popularDishes,
     restaurantOpeningTime,
     restaurantClosingTime,
     contactNumber,
+    certificateImage:certificateImage.secure_url
   });
 
   //store db
   await newRestaurant.save()
-
+  const userid=req.user.id;
+  const user=await User.findById(userid)
+  user.restaurantId=newRestaurant._id;
+  await  user.save()
   if (!newRestaurant) {
     return res.status(404).json({
       sucess: false,
@@ -45,6 +57,86 @@ export const createRestaurant = async (req, res) => {
     message: "sucessfully restaurant  created"
   })
 };
+
+export const pendingRestrunts=async(req,res)=>{
+  const restaurants=await  Restaurant.find({approved:false})
+  console.log(restaurants)
+  return res.status(200).json({
+    sucess:true,
+    message:"sucessfully fetched pending restrunts",
+    restaurants:restaurants
+  })
+}
+export const checkExistence=async(req,res)=>{
+  const id=req.user.restaurantId;
+
+  if(!id){
+    return res.status(404).json({
+      sucess:false,
+      exists:false,
+      message:"restaurant not found"
+    })
+  }
+  const restaurant=await  Restaurant.find({approved:false})
+  
+  return res.status(200).json({
+    sucess:true,
+    exists:true,
+    restaurant:restaurant,
+    message:"sucessfully fetched pending restrunts",
+  })
+}
+
+
+export const approval=async(req,res)=>{
+  const {id}=req.params;
+  const restaurant=await Restaurant.findById(id)
+  
+  if(!restaurant){
+    return res.status(404).json({
+      status:false,
+      message:"retsurnt not registred yet ...not found",
+    })
+  }
+  restaurant.approved=true;
+
+  await restaurant.save()
+  return res.status(200).json({
+    success:true,
+    message:"sucessfully appoved"
+  })
+}
+
+
+export const deleteApproval=async(req,res)=>{
+  try{
+  const {id}=req.params;
+  const restaurant=await Restaurant.findByIdAndDelete(id)
+  console.log(id)
+  if(!restaurant){
+    return res.status(404).json({
+      status:false,
+      message:"retsurnt not registred yet ...not found",
+    })
+  }
+  // Find the user
+  const user = await User.findOne({ restaurantId: id });
+
+  if(user)
+    user.restaurantId = null;
+  await user.save();
+  return res.status(200).json({
+    success:true,
+    message:"sucessfully deleted approval"
+  })}
+  catch(error){
+    console.log(error)
+    return res.status(500).json({
+      success:false,
+      message:"error deleting approval"
+    })
+  }
+}
 
 export const updateRestaurant = async (req, res) => {
   const { id } = req.params;
@@ -214,8 +306,8 @@ export const getDishes = async (req, res) => {
     const topFiveItemsByRestaurant = await Promise.all(
       restaurants.map(async (restaurant) => {
         const topFiveItems = await Restaurant.findById(restaurant._id).populate('menu')
-          .select({ 'menu': { $slice: 5 }, _id: 0 }) // Project only the first 5 items from the menu
-          .sort({ 'menu.rating': -1 });
+          // .select({ 'menu': { $slice: 5 }, _id: 0 }) // Project only the first 5 items from the menu
+          // .sort({ 'menu.rating': -1 });  
 
           console.log("topFiveItemsByRestaurant,",topFiveItems)
         return { restaurant: restaurant.name, items: topFiveItems };
@@ -255,7 +347,6 @@ export const addMenu = async (req, res) => {
       return res.status(400).json({ sucess:false,error: 'image could not uploded try again' });
     }
     let isVegBool=false;
-    console.log("printing...:",isVeg);
     if(isVeg=="veg"){
       isVegBool=true;
     }

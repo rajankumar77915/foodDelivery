@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from '../../services/functions/login'
 import IconBtn from '../componant/IconBtn'
 import { FaGoogle } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -96,6 +97,10 @@ export default function Login() {
                   onChange={(ev) => setPassword(ev.target.value)}
                 />
                 <IconBtn text={"Login"} customClasses={"justify-center w-10/12"}></IconBtn>
+              </div>
+              <div className="my-4 text-center">
+                <p>don't have account click on</p>
+                <Link href="/signup" className="text-blue-800">register</Link>
               </div>
               <div className="my-4 text-center text-gray-500 ">or login with provider</div>
               <div className="flex justify-center">

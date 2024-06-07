@@ -64,7 +64,7 @@ export const createOrder = async (req, res) => {
 
 export const changeOrderStatus = async (req, res) => {
     try {
-        const order_id = req.params.orderId.trim();
+        // const order_id = req.params.orderId.trim();
         const subSectionId = req.params.subSectionId.trim();
         const { orderStatus } = req.body;
         // const orderStatus = req.body.orderStatus.trim();
@@ -90,16 +90,19 @@ export const changeOrderStatus = async (req, res) => {
 };
 
 
-export const getAllOrder = async (req, res) => {
+export const getAllOrderTrack = async (req, res) => {
     try {
         const user = req.user;
 
-        // Find orders
+        // Find orders whose status not calcel
         const orders = await User.findById(user.id)
             .populate({
                 path: "orders",
+                
+                populate: { path: "SubsectionOrder",match: { orderStatus: { $ne: 'canceled' } }, populate: { path: "item" } },
                 options: { sort: { orderDate: -1 } } // Sorting by orderDate in descending order
             });
+            console.log("oreders:",orders.orders)
 
         if (!orders) {
             return res.status(404).json({
@@ -126,24 +129,21 @@ export const findAllorderForuser = async (req, res) => {
     try {
         const userId = req.user.id;
         // Step 1: Find the restaurantId associated with the user
-        const RestaurantOwner = await User.findById(userId).populate("restaurantId")
-        console.log("rid", RestaurantOwner)
+        const RestaurantOwner = await User.findById(userId)
+        // console.log("rid", RestaurantOwner)
         const RestaurantId = RestaurantOwner.restaurantId;
-        const orders = await Order.find({
+        const orders = await Order.find({})
+    .populate({
+        path: "SubsectionOrder",
+        populate: { path: 'item', match: { 'restaurantId': RestaurantId } }
+    });
 
-        }).populate({
-            path: "SubsectionOrder",
-            populate: { path: 'item', match: { 'restaurantId': RestaurantId } }
-        });
+    const filteredOrders = orders.filter(order => 
+        order.SubsectionOrder && order.SubsectionOrder.some(subOrder => subOrder.item !== null)
+    );
+    
 
-
-        const orders1 = await Order.find({
-            'SubsectionOrder': "65d1d350b2ed76912923df82"
-        }).populate({ path: "SubsectionOrder", populate: { path: 'item', populate: { path: 'restaurantId' } } });
-        console.log("jnjdndjndjndjndjdnjdnjndjndjdnjdnjdndjndjndjdnjdnjd ", orders)
-
-
-        return res.json(orders);
+        return res.json(filteredOrders);
     } catch (error) {
         console.error('Error finding orders:', error);
         throw error; // You might want to handle this error more gracefully

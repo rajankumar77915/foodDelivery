@@ -18,7 +18,7 @@ const MenuItem = ({item}) => {
   return (
 
     <div
-      className="w-96  bg-gradient-to-r from-richblack-25 from-10% via-richblack-25 via-30% to-richblack-100 to-90%  p-4 rounded-lg text-black text-center group shadow-md
+      className="w-96  bg-white via-30% to-richblack-100 to-90%  p-4 rounded-lg text-black text-center group shadow-sm
        shadow-black-50 hover:shadow-richblack-700 transition-all relative"
     >
 
@@ -46,7 +46,7 @@ const MenuItem = ({item}) => {
 
       <div>
 
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 text-sm overflow-x-auto whitespace-nowrap">
           {item?.description}
         </p>
       </div>

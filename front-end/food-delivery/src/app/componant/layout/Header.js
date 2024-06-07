@@ -29,7 +29,7 @@ function AuthLinks({ status, image }) {
         <Link className="p-2 font-semibold transition duration-300 hover:text-pink-5" href={"/login"}>
           Login
         </Link>
-        <Link href={"/register"} className=" rounded-full font-semibold py-1 transition duration-300 hover:text-pink-5">
+        <Link href={"/signup"} className=" rounded-full font-semibold py-1 transition duration-300 hover:text-pink-5">
           Register
         </Link>
       </>

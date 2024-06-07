@@ -241,3 +241,27 @@ export const addItemRatingReview = async (req, res) => {
         });
     }
 };
+
+export const getItemRatingReview = async (req, res) => {
+    const itemId = req.params.id;
+    try {
+        const item = await Item.findById(itemId).populate("ratingsAndReviews");
+        if(!item){
+            return res.status(404).json({
+                success:false,
+                message:"item not found"
+            })
+        }
+        return res.status(200).json({
+            data: item.ratingsAndReviews,
+            success: true,
+            message: "Successfully retrieved rating and review for the item",
+        });
+    } catch (error) {
+        console.error("Error getting rating and review for the item:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
+};
