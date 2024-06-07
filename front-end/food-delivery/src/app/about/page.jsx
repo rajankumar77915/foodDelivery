@@ -1,6 +1,11 @@
+
 'use client'
 import ContactDetails from './ContactPage/ContactDetails'
 import ContactForm from './ContactPage/ContactForm'
+
+
+
+
 const FoodOrderAbout = () => {
   return (
     <div>

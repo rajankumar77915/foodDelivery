@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { useSelector } from "react-redux"
 import { FaHistory, FaShoppingCart } from "react-icons/fa";
 import { useState } from "react"
@@ -16,7 +16,7 @@ export default function Cart() {
       <FaHistory />My History
     </h1>
     <p className="border-b border-b-richblack-400 pb-2 font-semibold text-richblack-400 font-poppins">
-      Your food's rating review and order history
+      Your food&apos;s rating review and order history
     </p>
     <div className="mt-8 flex flex-col-reverse items-start gap-x-10 gap-y-6 lg:flex-row ">
       <div className="overflow-auto" style={{ maxHeight: "calc(100vh - 200px)" }}>

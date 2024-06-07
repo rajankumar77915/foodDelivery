@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { useSelector } from "react-redux"
 import { FaShoppingCart } from "react-icons/fa";
 import RenderCartCourses from "../componant/Cart/RenderCartCourses"

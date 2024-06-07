@@ -6,12 +6,12 @@ const Homemenu = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/v1/restaurant/getDishes/54321');
+        const response = await fetch("https://fooddelivery1-wecn.onrender.com/api/v1/restaurant/getDishes/54321");
         const result = await response.json();
         setRestaurants(result.data);
         console.log(result.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 

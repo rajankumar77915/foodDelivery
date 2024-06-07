@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 'use client'
 import { apiConnector } from "@/services/apiconnector";
+=======
+"use client"
+>>>>>>> d160f934139b39986352c6a7402c94188fe6167b
 import { useEffect, useRef, useState } from "react";
 import { TiTick } from "react-icons/ti";
 
@@ -31,16 +35,22 @@ const Stepper = ({ currentStatus,currentSubsectionId,orderId,token}) => {
     }
   }, []);
   const handleCancel = () => {
+<<<<<<< HEAD
 
     apiConnector("PUT", `http://localhost:4000/api/v1/order/changeOrderStatus/${orderId}/${currentSubsectionId}`, { orderStatus: "canceled" },  {Authorization: `Bearer ${token}`})
     setCurrentStep(5);
+=======
+    // Handle cancellation logic here
+    // For demonstration, let"s reset to the canceled step
+    setCurrentStep(6);
+>>>>>>> d160f934139b39986352c6a7402c94188fe6167b
     setComplete(false);
     setIsCanceled(true);
   };
 
   const handleGetHelp = () => {
     // Handle getting help logic here
-    // For demonstration, let's alert a message
+    // For demonstration, let"s alert a message
     alert("Help is on the way!");
   };
 

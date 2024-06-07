@@ -9,11 +9,11 @@ import { useRouter } from "next/navigation";
 export default function Signup() {
   const [AllStatisfy, setAllStatisfy] = useState(true);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    mobileNo: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    mobileNo: ""
   });
 
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export default function Signup() {
   };
 
   const onSubmit = () => {
-    if (formData.firstName === '' || formData.lastName === '' || formData.password === '' || formData.mobileNo === '') {
+    if (formData.firstName === "" || formData.lastName === "" || formData.password === "" || formData.mobileNo === "") {
       setAllStatisfy(false);
     } else {
       setAllStatisfy(true);
@@ -45,7 +45,7 @@ export default function Signup() {
         <div className="w-1/3 h-auto p-4 rounded-lg flex-col items-center">
           <div className="flex justify-between items-center">
             <h1 className="font-serif text-lg">Signup</h1>
-            <div className="w-7 hover:bg-slate-200" onClick={()=>{router.push('/')}}><IoCloseSharp className="w-full h-full" /></div>
+            <div className="w-7 hover:bg-slate-200" onClick={()=>{router.push("/")}}><IoCloseSharp className="w-full h-full" /></div>
           </div>
 
           <div className="p-5">

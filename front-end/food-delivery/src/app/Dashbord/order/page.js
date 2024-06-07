@@ -4,30 +4,30 @@ import Image from "next/image";
 import { MdExpandMore, MdOutlineModeEditOutline } from "react-icons/md";
 import { apiConnector } from "@/services/apiconnector";
 import { useSelector } from "react-redux";
+
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
-  const [isClient, setIsClient] = useState(false)
+  const [isEditStatus, setIsEditStatus] = useState(true);
+  const [isEditPayment, setIsEditPayment] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState("");
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState(null);
   const token = useSelector((state) => state?.auth.token);
-  const [expandedOrderId, setExpandedOrderId] = useState(null);
-  const handleExpandOrder = (orderId) => {
-    setExpandedOrderId(orderId === expandedOrderId ? null : orderId);
-  };
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await apiConnector(
           "GET",
-          "https://fooddelivery1-wecn.onrender.com/api/v1/order/findAllorderForuser",
+          "http://localhost:4000/api/v1/order/findAllorderForuser",
           null,
           {
             Authorization: `Bearer ${token}`,
           }
         );
-        console.log("my res:", response.data)
+        console.log("my res:",response.data)
         setOrders(response.data);
-        setIsClient(true)
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -36,107 +36,52 @@ const OrdersPage = () => {
     fetchOrders();
   }, []);
 
-  const handleStatusChange = async (selectedItemId, newStatus,orderId) => {
+  const handleStatusChange = async () => {
     try {
- 
-      const updatedOrders = orders.map(order => {
-        return {
-          ...order,
-          isEdit: false,
-          SubsectionOrder: order.SubsectionOrder.map(subOrder => {
-            if (subOrder._id === selectedItemId) {
-              return {
-                ...subOrder,
-                orderStatus: newStatus
-              };
-            }
-            return subOrder;
-          })
-        };
-      });
-
-      
-      console.log("i am updatedOrders1",updatedOrders)
-      // setOrders(updatedOrders);
-      setOrders(updatedOrders);
-
-
       await apiConnector(
         "PUT",
-        `http://localhost:4000/api/v1/order/changeOrderStatus/${orderId}/${selectedItemId}`,
-        { orderStatus: newStatus },
+        `http://localhost:4000/api/v1/order/updateStatus/${selectedItemId}`,
+        { status: selectedStatus },
         {
           Authorization: `Bearer ${token}`,
         }
       );
+      // Refresh orders after status update
+      fetchOrders();
     } catch (error) {
       console.error("Error updating status:", error);
     }
   };
 
-  const handlePaymentStatusChange = async (orderId, newPaymentStatus) => {
+  const handleEditButtonClick = (itemId) => {
+    setIsEditStatus(!isEditStatus);
+
+    setSelectedItemId(itemId);
+  };
+
+  const handleExpandOrder = (orderId) => {
+    setExpandedOrderId(orderId === expandedOrderId ? null : orderId);
+  };
+
+  const handlePaymentStatusChange = async (orderId) => {
     try {
-      const updatedOrders = orders.map(order => {
-        if (order._id === orderId) {
-          return {
-            ...order,
-            paymentStatus: newPaymentStatus
-          };
-        }
-        return order;
-      });
-
-      setOrders(updatedOrders);
-
+      setIsEditPayment(!isEditPayment);
       await apiConnector(
         "PUT",
-        `http://localhost:4000/api/v1/order/updatePaymentStatus/${orderId}`,
-        { paymentStatus: newPaymentStatus },
+        `https://fooddelivery1-wecn.onrender.com/api/v1/order/updatePaymentStatus/${orderId}`,
+        { paymentStatus: selectedPaymentStatus },
         {
           Authorization: `Bearer ${token}`,
         }
       );
+      // Refresh orders after payment status update
+      fetchOrders();
     } catch (error) {
       console.error("Error updating payment status:", error);
-      window.location.reload();
     }
   };
 
-  const handleEditButtonClick = (orderId) => {
-    const updatedOrders = orders.map(order => {
-      if (order._id === orderId) {
-        return {
-          ...order,
-          isEdit: true
-        };
-      }
-      return order;
-    });
-
-    setOrders(updatedOrders);
-  };
-  const handleLocalStusChange = async (selectedItemId, newStatus)=> {
-    console.log("edit clied ",selectedItemId,newStatus)
-    const updatedOrders = orders.map(order => {
-      return {
-        ...order,
-        SubsectionOrder: order.SubsectionOrder.map(subOrder => {
-          if (subOrder._id === selectedItemId) {
-            return {
-              ...subOrder,
-              orderStatus: newStatus
-            };
-          }
-          return subOrder;
-        })
-      };
-    });
-    console.log("omomomomom ",updatedOrders)
-    setOrders(updatedOrders);
-  };
-  
-
-  return (<> {isClient ?
+  return (
     <div className="p-4 lg:px-20 xl:px-40 overflow-x-auto mt-10">
       <table className="w-full border-collapse border border-gray-300">
         <thead>
@@ -164,16 +109,15 @@ const OrdersPage = () => {
                   <td className="py-2 px-4 text-center">
                     {new Date(order.orderDate).toLocaleDateString()}
                   </td>
-                  <td className="py-2 px-4 text-center">{subOrder?.item?.price}</td>
-                  <td className="hidden md:table-cell py-2 px-4">{subOrder?.item?.itemName}</td>
+                  <td className="py-2 px-4 text-center">{subOrder.item.price}</td>
+                  <td className="hidden md:table-cell py-2 px-4">{subOrder.item.itemName}</td>
                   <td className="py-2 px-4 text-center">
-                    {order.isEdit ? (
+                    {isEditStatus ? (
+                      subOrder.orderStatus
+                    ) : (
                       <select
-                        value={subOrder.orderStatus}
-                        onChange={(e) =>{ setSelectedStatus(e.target.value ||subOrder.orderStatus);
-                          console.log("e.target.value is ",e.target.value)
-                          handleLocalStusChange(subOrder._id, e.target.value ||subOrder.orderStatus)
-                        }}
+                        value={selectedStatus ? selectedStatus : subOrder.orderStatus}
+                        onChange={(e) => setSelectedStatus(e.target.value)}
                         className="p-2 focus:outline-none"
                       >
                         <option value="">Select Status</option>
@@ -186,49 +130,44 @@ const OrdersPage = () => {
                           "canceled",
                         ].map((status) => (
                           <option key={status} value={status}>
-                            {status || subOrder.orderStatus}
+                            {status}
                           </option>
                         ))}
                       </select>
-                    ) : (
-                      subOrder.orderStatus
                     )}
                   </td>
                   <td className="py-2 px-4 text-center">
                     <div className="flex justify-center">
-                      {!order.isEdit &&
-                        <button
-                          onClick={() => { setSelectedStatus(subOrder.selectedStatus); handleEditButtonClick(order._id)}}
-                          className="bg-red-400 text-white p-2 rounded-full mr-2"
-                        >
-                          <MdOutlineModeEditOutline />
-                        </button>
-                      }
-                      {order.isEdit && (
-                        <button
-                          onClick={() => handleStatusChange(subOrder._id, selectedStatus,order._id)}
-                          className="bg-blue-500 text-white p-2 rounded-md mr-2"
-                        >
-                          Update Status
-                        </button>
+                      {subOrder.orderStatus !== "delivered" && (
+                        <>
+                          <button
+                            onClick={() => handleEditButtonClick(subOrder.item.id)}
+                            className="bg-red-400 text-white p-2 rounded-full mr-2"
+                          >
+                            <MdOutlineModeEditOutline />
+                          </button>
+                          {!isEditStatus && (
+                            <button
+                              onClick={handleStatusChange}
+                              className="bg-blue-500 text-white p-2 rounded-md mr-2"
+                            >
+                              Update Status
+                            </button>
+                          )}
+                        </>
                       )}
-                      {/* <button
-                        onClick={() => handlePaymentStatusChange(order._id, selectedPaymentStatus)}
-                        className="bg-blue-500 text-white p-2 rounded-md mr-2"
-                      >
-                        Update Payment Status
-                      </button> */}
                       <button
                         onClick={() => handleExpandOrder(order._id)}
                         className="bg-gray-300 p-2 rounded-full mr-2"
                       >
                         <MdExpandMore />
                       </button>
+
                     </div>
                   </td>
                 </tr>
               ))}
-               {expandedOrderId === order._id && (
+              {expandedOrderId === order._id && (
                 <>
                   <tr className="bg-gray-100">
                     <td colSpan="6" className="py-2 px-4">
@@ -241,24 +180,44 @@ const OrdersPage = () => {
                     <td colSpan="6" className="py-2 px-4">
                       {/* Display additional details like order address */}
                       <span className="font-bold">Payment Status: </span>
-                      
-                     
+                      {isEditPayment ? <span className="ml-2">{order.paymentStatus ? "Completed" : "Not Completed"}</span>
+                        :
+                        <>
+                          <select
+                            value={selectedPaymentStatus ? selectedPaymentStatus : order.paymentStatus}
+                            onChange={(e) => setSelectedPaymentStatus(e.target.value)}
+                            className="p-2 focus:outline-none"
+                          >
+                            <option value="">Select Payment Status</option>
+                            <option value="true">Completed</option>
+                            <option value="false">Not Completed</option>
+                          </select>
+                        </>
+                      }
+                      {isEditStatus ?
+                        <button
+                          onClick={() => handleEditButtonClick(subOrder.item.id)}
+                          className="bg-red-400 text-white p-2 rounded-full ml-3"
+                        >
+                          <MdOutlineModeEditOutline />
+                        </button> :
+                        <button
+                          onClick={() => handlePaymentStatusChange(order._id)}
+                          className="bg-blue-500 text-white p-2 rounded-md ml-2"
+                        >
+                          Update Payment Status
+                        </button>
+                      }
                     </td>
                   </tr>
 
                 </>
               )}
-            
             </>
-            
           ))}
-
-          
         </tbody>
       </table>
     </div>
-                    :"my orders are loading..."}
-                  </>
   );
 };
 

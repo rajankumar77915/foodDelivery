@@ -21,7 +21,7 @@ export default function History() {
       try {
         const orderResponse = await apiConnector(
           "GET",
-          "http://localhost:4000/api/v1/order/getHistory",
+          "https://fooddelivery1-wecn.onrender.com/api/v1/order/getHistory",
           null,
           {
             Authorization: `Bearer ${token}`,

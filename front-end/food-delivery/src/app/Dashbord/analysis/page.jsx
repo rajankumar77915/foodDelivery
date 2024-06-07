@@ -1,9 +1,9 @@
 "use client"
-import Link from 'next/link';
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import RestruntChart from './RestruntDashboard/RestruntChart';
-import { getRestruntData } from '@/services/functions/foodDetailsAPI';
+import Link from "next/link";
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux";
+import RestruntChart from "./RestruntDashboard/RestruntChart";
+import { getRestruntData } from "@/services/functions/foodDetailsAPI";
 
 
 const Restrunt = () => {
@@ -70,7 +70,7 @@ const Restrunt = () => {
             Hi {user?.firstName} 👋
           </h1>
           <p className="font-medium text-richblack-200">
-            Let's start something new
+            Let&apos;s start something new
           </p>
         </div>
       }
@@ -80,7 +80,7 @@ const Restrunt = () => {
         <div>
           <div className="my-4 flex h-[450px] space-x-4">
            {/* Render chart / graph */}
-           {totalAmount > 0 || totalStudents > 0 ? (
+           {totalAmount > 0 ? (
                  <RestruntChart RestruntData={RestruntData} />
                 ) : (
                   <div className="flex-1 rounded-md bg-richblack-800 p-6">

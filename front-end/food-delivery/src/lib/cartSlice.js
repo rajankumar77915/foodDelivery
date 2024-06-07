@@ -1,15 +1,15 @@
-'use client'
+"use client"
 import { createSlice } from "@reduxjs/toolkit"
 import { toast } from "react-hot-toast"
 
 const initialState = {
-  cart:typeof window === 'object' && localStorage.getItem("cart")
+  cart:typeof window === "object" && localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart"))
     : [],
-  total:typeof window === 'object'&& localStorage.getItem("total") //price
+  total:typeof window === "object"&& localStorage.getItem("total") //price
     ? JSON.parse(localStorage.getItem("total"))
     : 0,
-  totalItems: typeof window === 'object' && localStorage.getItem("totalItems")
+  totalItems: typeof window === "object" && localStorage.getItem("totalItems")
     ? JSON.parse(localStorage.getItem("totalItems"))
     : 0,
 }
